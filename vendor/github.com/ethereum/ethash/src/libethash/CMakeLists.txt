@@ -1,6 +1,6 @@
 set(LIBRARY ethash)
 
-if (CPPETHEREUM)
+if (CPPAERUMTechnology)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif ()
 

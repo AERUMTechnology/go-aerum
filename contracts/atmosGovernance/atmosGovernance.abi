@@ -1,0 +1,23 @@
+[{
+  "constant": true,
+  "inputs": [
+    {
+      "name": "_blockNum",
+      "type": "uint256"
+    },
+    {
+      "name": "_timestamp",
+      "type": "uint256"
+    }
+  ],
+  "name": "getComposers",
+  "outputs": [
+    {
+      "name": "",
+      "type": "address[]"
+    }
+  ],
+  "payable": false,
+  "stateMutability": "view",
+  "type": "function"
+}]

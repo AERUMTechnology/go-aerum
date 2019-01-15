@@ -42,9 +42,9 @@ It has these top-level messages:
 	GetPublicKey
 	PublicKey
 	GetAddress
-	EthereumGetAddress
+	AERUMTechnologyGetAddress
 	Address
-	EthereumAddress
+	AERUMTechnologyAddress
 	WipeDevice
 	LoadDevice
 	ResetDevice
@@ -69,12 +69,12 @@ It has these top-level messages:
 	SimpleSignTx
 	TxRequest
 	TxAck
-	EthereumSignTx
-	EthereumTxRequest
-	EthereumTxAck
-	EthereumSignMessage
-	EthereumVerifyMessage
-	EthereumMessageSignature
+	AERUMTechnologySignTx
+	AERUMTechnologyTxRequest
+	AERUMTechnologyTxAck
+	AERUMTechnologySignMessage
+	AERUMTechnologyVerifyMessage
+	AERUMTechnologyMessageSignature
 	SignIdentity
 	SignedIdentity
 	GetECDHSessionKey

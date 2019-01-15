@@ -16,13 +16,13 @@ Pss is intended for messages of limited size, typically a couple of Kbytes at mo
 
 For the current state and roadmap of pss development please see https://github.com/ethersphere/swarm/wiki/swarm-dev-progress.
 
-Please report issues on https://github.com/ethersphere/go-ethereum
+Please report issues on https://github.com/ethersphere/go-aerum
 
 Feel free to ask questions in https://gitter.im/ethersphere/pss
 
 ## STATUS OF THIS DOCUMENT
 
-`pss` is under active development, and the first implementation is yet to be merged to the Ethereum main branch. Expect things to change.
+`pss` is under active development, and the first implementation is yet to be merged to the AERUMTechnology main branch. Expect things to change.
 
 ## CORE INTERFACES
 
