@@ -28,6 +28,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/elastic/gosigar"
 	"github.com/AERUMTechnology/go-aerum-new/accounts"
 	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
 	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
@@ -38,7 +39,6 @@ import (
 	"github.com/AERUMTechnology/go-aerum-new/log"
 	"github.com/AERUMTechnology/go-aerum-new/metrics"
 	"github.com/AERUMTechnology/go-aerum-new/node"
-	"github.com/elastic/gosigar"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -164,7 +164,7 @@ func init() {
 	// Initialize the CLI app and start Geth
 	app.Action = aerum
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2018 The go-aerum-new Authors"
+	app.Copyright = "Copyright 2013-2018 The go-aerum-new Authors"
 	app.Commands = []cli.Command{
 		// See chaincmd.go:
 		initCommand,
@@ -258,6 +258,9 @@ func main() {
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
 func aerum(ctx *cli.Context) error {
+	if args := ctx.Args(); len(args) > 0 {
+		return fmt.Errorf("invalid command: %q", args[0])
+	}
 	node := makeFullNode(ctx)
 	startNode(ctx, node)
 	node.Wait()
@@ -315,11 +318,11 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 				status, _ := event.Wallet.Status()
 				log.Info("New wallet appeared", "url", event.Wallet.URL(), "status", status)
 
+				derivationPath := accounts.DefaultBaseDerivationPath
 				if event.Wallet.URL().Scheme == "ledger" {
-					event.Wallet.SelfDerive(accounts.DefaultLedgerBaseDerivationPath, stateReader)
-				} else {
-					event.Wallet.SelfDerive(accounts.DefaultBaseDerivationPath, stateReader)
+					derivationPath = accounts.DefaultLedgerBaseDerivationPath
 				}
+				event.Wallet.SelfDerive(derivationPath, stateReader)
 
 			case accounts.WalletDropped:
 				log.Info("Old wallet dropped", "url", event.Wallet.URL())
@@ -329,7 +332,7 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	}()
 	// Start auxiliary services if enabled
 	if ctx.GlobalBool(utils.MiningEnabledFlag.Name) || ctx.GlobalBool(utils.DeveloperFlag.Name) {
-		// Mining only makes sense if a full AERUMTechnology node is running
+		// Mining only makes sense if a full Ethereum node is running
 		if ctx.GlobalBool(utils.LightModeFlag.Name) || ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {
 			utils.Fatalf("Light clients do not support mining")
 		}
