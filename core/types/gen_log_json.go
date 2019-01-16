@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
 )
 
 var _ = (*logMarshaling)(nil)

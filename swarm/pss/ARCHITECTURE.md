@@ -16,7 +16,7 @@ Pss is intended for messages of limited size, typically a couple of Kbytes at mo
 
 For the current state and roadmap of pss development please see https://github.com/ethersphere/swarm/wiki/swarm-dev-progress.
 
-Please report issues on https://github.com/ethersphere/go-aerum
+Please report issues on https://github.com/ethersphere/go-aerum-new
 
 Feel free to ask questions in https://gitter.im/ethersphere/pss
 

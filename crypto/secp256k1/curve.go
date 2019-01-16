@@ -36,7 +36,7 @@ import (
 	"math/big"
 	"unsafe"
 
-	"github.com/AERUMTechnology/go-aerum/common/math"
+	"github.com/AERUMTechnology/go-aerum-new/common/math"
 )
 
 /*

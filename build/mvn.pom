@@ -10,8 +10,8 @@
   <packaging>aar</packaging>
 
   <name>Android AERUMTechnology Client</name>
-  <description>Android port of the go-aerum libraries and node</description>
-  <url>https://github.com/AERUMTechnology/go-aerum</url>
+  <description>Android port of the go-aerum-new libraries and node</description>
+  <url>https://github.com/AERUMTechnology/go-aerum-new</url>
   <inceptionYear>2015</inceptionYear>
 
   <licenses>
@@ -48,10 +48,10 @@
 
   <issueManagement>
     <system>GitHub Issues</system>
-    <url>https://github.com/AERUMTechnology/go-aerum/issues/</url>
+    <url>https://github.com/AERUMTechnology/go-aerum-new/issues/</url>
   </issueManagement>
 
   <scm>
-    <url>https://github.com/AERUMTechnology/go-aerum</url>
+    <url>https://github.com/AERUMTechnology/go-aerum-new</url>
   </scm>
 </project>

@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum Authors
-// This file is part of go-aerum.
+// Copyright 2017 The go-aerum-new Authors
+// This file is part of go-aerum-new.
 //
-// go-aerum is free software: you can redistribute it and/or modify
+// go-aerum-new is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum is distributed in the hope that it will be useful,
+// go-aerum-new is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
 
 // This is a simple Whisper node. It could be used as a stand-alone bootstrap node.
 // Also, could be used for different test and diagnostics purposes.
@@ -35,16 +35,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum/cmd/utils"
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/console"
-	"github.com/AERUMTechnology/go-aerum/crypto"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/p2p"
-	"github.com/AERUMTechnology/go-aerum/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum/p2p/nat"
-	"github.com/AERUMTechnology/go-aerum/whisper/mailserver"
-	whisper "github.com/AERUMTechnology/go-aerum/whisper/whisperv6"
+	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/console"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/p2p"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/nat"
+	"github.com/AERUMTechnology/go-aerum-new/whisper/mailserver"
+	whisper "github.com/AERUMTechnology/go-aerum-new/whisper/whisperv6"
 	"golang.org/x/crypto/pbkdf2"
 )
 

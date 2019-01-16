@@ -5,12 +5,12 @@ package eth
 import (
 	"math/big"
 
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
-	"github.com/AERUMTechnology/go-aerum/core"
-	"github.com/AERUMTechnology/go-aerum/eth/downloader"
-	"github.com/AERUMTechnology/go-aerum/eth/gasprice"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum-new/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum-new/core"
+	"github.com/AERUMTechnology/go-aerum-new/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum-new/eth/gasprice"
 )
 
 var _ = (*configMarshaling)(nil)

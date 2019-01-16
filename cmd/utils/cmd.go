@@ -1,20 +1,20 @@
-// Copyright 2014 The go-aerum Authors
-// This file is part of go-aerum.
+// Copyright 2014 The go-aerum-new Authors
+// This file is part of go-aerum-new.
 //
-// go-aerum is free software: you can redistribute it and/or modify
+// go-aerum-new is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum is distributed in the hope that it will be useful,
+// go-aerum-new is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
 
-// Package utils contains internal helper functions for go-aerum commands.
+// Package utils contains internal helper functions for go-aerum-new commands.
 package utils
 
 import (
@@ -27,16 +27,16 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/core"
-	"github.com/AERUMTechnology/go-aerum/core/rawdb"
-	"github.com/AERUMTechnology/go-aerum/core/types"
-	"github.com/AERUMTechnology/go-aerum/crypto"
-	"github.com/AERUMTechnology/go-aerum/ethdb"
-	"github.com/AERUMTechnology/go-aerum/internal/debug"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/node"
-	"github.com/AERUMTechnology/go-aerum/rlp"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/core"
+	"github.com/AERUMTechnology/go-aerum-new/core/rawdb"
+	"github.com/AERUMTechnology/go-aerum-new/core/types"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/ethdb"
+	"github.com/AERUMTechnology/go-aerum-new/internal/debug"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/node"
+	"github.com/AERUMTechnology/go-aerum-new/rlp"
 )
 
 const (

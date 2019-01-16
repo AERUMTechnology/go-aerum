@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum Authors
-// This file is part of the go-aerum library.
+// Copyright 2017 The go-aerum-new Authors
+// This file is part of the go-aerum-new library.
 //
-// The go-aerum library is free software: you can redistribute it and/or modify
+// The go-aerum-new library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum library is distributed in the hope that it will be useful,
+// The go-aerum-new library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package clique implements the proof-of-authority consensus engine.
 package clique
@@ -25,20 +25,20 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum/accounts"
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum/consensus"
-	"github.com/AERUMTechnology/go-aerum/consensus/misc"
-	"github.com/AERUMTechnology/go-aerum/core/state"
-	"github.com/AERUMTechnology/go-aerum/core/types"
-	"github.com/AERUMTechnology/go-aerum/crypto"
-	"github.com/AERUMTechnology/go-aerum/crypto/sha3"
-	"github.com/AERUMTechnology/go-aerum/ethdb"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/params"
-	"github.com/AERUMTechnology/go-aerum/rlp"
-	"github.com/AERUMTechnology/go-aerum/rpc"
+	"github.com/AERUMTechnology/go-aerum-new/accounts"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum-new/consensus"
+	"github.com/AERUMTechnology/go-aerum-new/consensus/misc"
+	"github.com/AERUMTechnology/go-aerum-new/core/state"
+	"github.com/AERUMTechnology/go-aerum-new/core/types"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/crypto/sha3"
+	"github.com/AERUMTechnology/go-aerum-new/ethdb"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/params"
+	"github.com/AERUMTechnology/go-aerum-new/rlp"
+	"github.com/AERUMTechnology/go-aerum-new/rpc"
 	lru "github.com/hashicorp/golang-lru"
 )
 

@@ -1,18 +1,18 @@
-// Copyright 2014 The go-aerum Authors
-// This file is part of the go-aerum library.
+// Copyright 2014 The go-aerum-new Authors
+// This file is part of the go-aerum-new library.
 //
-// The go-aerum library is free software: you can redistribute it and/or modify
+// The go-aerum-new library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum library is distributed in the hope that it will be useful,
+// The go-aerum-new library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package state provides a caching layer atop the AERUMTechnology state trie.
 package state
@@ -23,12 +23,12 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/core/types"
-	"github.com/AERUMTechnology/go-aerum/crypto"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/rlp"
-	"github.com/AERUMTechnology/go-aerum/trie"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/core/types"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/rlp"
+	"github.com/AERUMTechnology/go-aerum-new/trie"
 )
 
 type revision struct {
@@ -471,7 +471,7 @@ func (self *StateDB) Copy() *StateDB {
 	}
 	// Copy the dirty states, logs, and preimages
 	for addr := range self.journal.dirties {
-		// As documented [here](https://github.com/AERUMTechnology/go-aerum/pull/16485#issuecomment-380438527),
+		// As documented [here](https://github.com/AERUMTechnology/go-aerum-new/pull/16485#issuecomment-380438527),
 		// and in the Finalise-method, there is a case where an object is in the journal but not
 		// in the stateObjects: OOG after touch on ripeMD prior to Byzantium. Thus, we need to check for
 		// nil

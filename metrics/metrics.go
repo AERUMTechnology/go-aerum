@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum-new/log"
 )
 
 // Enabled is checked by the constructor functions for all of the

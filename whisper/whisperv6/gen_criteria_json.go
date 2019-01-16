@@ -5,7 +5,7 @@ package whisperv6
 import (
 	"encoding/json"
 
-	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
 )
 
 var _ = (*criteriaOverride)(nil)

@@ -6,12 +6,12 @@ package contract
 import (
 	"strings"
 
-	AERUMTechnology "github.com/AERUMTechnology/go-aerum"
-	"github.com/AERUMTechnology/go-aerum/accounts/abi"
-	"github.com/AERUMTechnology/go-aerum/accounts/abi/bind"
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/core/types"
-	"github.com/AERUMTechnology/go-aerum/event"
+	AERUMTechnology "github.com/AERUMTechnology/go-aerum-new"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/abi"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/abi/bind"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/core/types"
+	"github.com/AERUMTechnology/go-aerum-new/event"
 )
 
 // ENSABI is the input ABI used to generate the binding from.

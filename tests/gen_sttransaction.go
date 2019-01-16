@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/AERUMTechnology/go-aerum/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum/common/math"
+	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum-new/common/math"
 )
 
 var _ = (*stTransactionMarshaling)(nil)

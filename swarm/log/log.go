@@ -1,8 +1,8 @@
 package log
 
 import (
-	l "github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/metrics"
+	l "github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/metrics"
 )
 
 const (

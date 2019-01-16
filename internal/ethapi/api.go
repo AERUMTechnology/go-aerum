@@ -1,18 +1,18 @@
-// Copyright 2015 The go-aerum Authors
-// This file is part of the go-aerum library.
+// Copyright 2015 The go-aerum-new Authors
+// This file is part of the go-aerum-new library.
 //
-// The go-aerum library is free software: you can redistribute it and/or modify
+// The go-aerum-new library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum library is distributed in the hope that it will be useful,
+// The go-aerum-new library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
 
 package ethapi
 
@@ -26,22 +26,22 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/AERUMTechnology/go-aerum/accounts"
-	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum/common/math"
-	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
-	"github.com/AERUMTechnology/go-aerum/core"
-	"github.com/AERUMTechnology/go-aerum/core/rawdb"
-	"github.com/AERUMTechnology/go-aerum/core/types"
-	"github.com/AERUMTechnology/go-aerum/core/vm"
-	"github.com/AERUMTechnology/go-aerum/crypto"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/p2p"
-	"github.com/AERUMTechnology/go-aerum/params"
-	"github.com/AERUMTechnology/go-aerum/rlp"
-	"github.com/AERUMTechnology/go-aerum/rpc"
+	"github.com/AERUMTechnology/go-aerum-new/accounts"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum-new/common/math"
+	"github.com/AERUMTechnology/go-aerum-new/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum-new/core"
+	"github.com/AERUMTechnology/go-aerum-new/core/rawdb"
+	"github.com/AERUMTechnology/go-aerum-new/core/types"
+	"github.com/AERUMTechnology/go-aerum-new/core/vm"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/p2p"
+	"github.com/AERUMTechnology/go-aerum-new/params"
+	"github.com/AERUMTechnology/go-aerum-new/rlp"
+	"github.com/AERUMTechnology/go-aerum-new/rpc"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/util"
 )
@@ -424,7 +424,7 @@ func signHash(data []byte) []byte {
 //
 // The key used to calculate the signature is decrypted with the given password.
 //
-// https://github.com/AERUMTechnology/go-aerum/wiki/Management-APIs#personal_sign
+// https://github.com/AERUMTechnology/go-aerum-new/wiki/Management-APIs#personal_sign
 func (s *PrivateAccountAPI) Sign(ctx context.Context, data hexutil.Bytes, addr common.Address, passwd string) (hexutil.Bytes, error) {
 	// Look up the wallet containing the requested signer
 	account := accounts.Account{Address: addr}
@@ -451,7 +451,7 @@ func (s *PrivateAccountAPI) Sign(ctx context.Context, data hexutil.Bytes, addr c
 // Note, the signature must conform to the secp256k1 curve R, S and V values, where
 // the V value must be be 27 or 28 for legacy reasons.
 //
-// https://github.com/AERUMTechnology/go-aerum/wiki/Management-APIs#personal_ecRecover
+// https://github.com/AERUMTechnology/go-aerum-new/wiki/Management-APIs#personal_ecRecover
 func (s *PrivateAccountAPI) EcRecover(ctx context.Context, data, sig hexutil.Bytes) (common.Address, error) {
 	if len(sig) != 65 {
 		return common.Address{}, fmt.Errorf("signature must be 65 bytes long")

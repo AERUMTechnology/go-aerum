@@ -50,7 +50,7 @@ Due to the inherent properties of the `swarm` routing algorithm, a node may rece
 
 ## EXAMPLES
 
-The code tutorial [p2p programming in go-aerum](https://github.com/nolash/go-aerum-p2p-demo) by [@nolash](https://github.com/nolash) provides step-by-step code examples for usage of `pss` API with `go-aerum` nodes.
+The code tutorial [p2p programming in go-aerum-new](https://github.com/nolash/go-aerum-new-p2p-demo) by [@nolash](https://github.com/nolash) provides step-by-step code examples for usage of `pss` API with `go-aerum-new` nodes.
 
 A quite unpolished example using `javascript` is available here: [https://github.com/nolash/pss-js/tree/withcrypt](https://github.com/nolash/pss-js/tree/withcrypt)
 
@@ -58,7 +58,7 @@ A quite unpolished example using `javascript` is available here: [https://github
 
 The `pss` API is available through IPC and Websockets. There is currently no `web3.js` implementation, as this does not support message subscription.
 
-For `golang` clients, please use the `rpc.Client` provided by the `go-aerum` repository. The return values may have special types in `golang`. Please refer to `godoc` for details.
+For `golang` clients, please use the `rpc.Client` provided by the `go-aerum-new` repository. The return values may have special types in `golang`. Please refer to `godoc` for details.
 
 ### RETRIEVE NODE INFORMATION
 

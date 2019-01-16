@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum Authors
-// This file is part of go-aerum.
+// Copyright 2017 The go-aerum-new Authors
+// This file is part of go-aerum-new.
 //
-// go-aerum is free software: you can redistribute it and/or modify
+// go-aerum-new is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum is distributed in the hope that it will be useful,
+// go-aerum-new is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum/cmd/utils"
-	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
 	"gopkg.in/urfave/cli.v1"
 )
 

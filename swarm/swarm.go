@@ -1,18 +1,18 @@
-// Copyright 2016 The go-aerum Authors
-// This file is part of the go-aerum library.
+// Copyright 2016 The go-aerum-new Authors
+// This file is part of the go-aerum-new library.
 //
-// The go-aerum library is free software: you can redistribute it and/or modify
+// The go-aerum-new library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum library is distributed in the hope that it will be useful,
+// The go-aerum-new library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
 
 package swarm
 
@@ -29,29 +29,29 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/AERUMTechnology/go-aerum/accounts/abi/bind"
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/contracts/chequebook"
-	"github.com/AERUMTechnology/go-aerum/contracts/ens"
-	"github.com/AERUMTechnology/go-aerum/ethclient"
-	"github.com/AERUMTechnology/go-aerum/metrics"
-	"github.com/AERUMTechnology/go-aerum/p2p"
-	"github.com/AERUMTechnology/go-aerum/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum/p2p/protocols"
-	"github.com/AERUMTechnology/go-aerum/params"
-	"github.com/AERUMTechnology/go-aerum/rpc"
-	"github.com/AERUMTechnology/go-aerum/swarm/api"
-	httpapi "github.com/AERUMTechnology/go-aerum/swarm/api/http"
-	"github.com/AERUMTechnology/go-aerum/swarm/fuse"
-	"github.com/AERUMTechnology/go-aerum/swarm/log"
-	"github.com/AERUMTechnology/go-aerum/swarm/network"
-	"github.com/AERUMTechnology/go-aerum/swarm/network/stream"
-	"github.com/AERUMTechnology/go-aerum/swarm/pss"
-	"github.com/AERUMTechnology/go-aerum/swarm/state"
-	"github.com/AERUMTechnology/go-aerum/swarm/storage"
-	"github.com/AERUMTechnology/go-aerum/swarm/storage/mock"
-	"github.com/AERUMTechnology/go-aerum/swarm/storage/mru"
-	"github.com/AERUMTechnology/go-aerum/swarm/tracing"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/abi/bind"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/contracts/chequebook"
+	"github.com/AERUMTechnology/go-aerum-new/contracts/ens"
+	"github.com/AERUMTechnology/go-aerum-new/ethclient"
+	"github.com/AERUMTechnology/go-aerum-new/metrics"
+	"github.com/AERUMTechnology/go-aerum-new/p2p"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/protocols"
+	"github.com/AERUMTechnology/go-aerum-new/params"
+	"github.com/AERUMTechnology/go-aerum-new/rpc"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/api"
+	httpapi "github.com/AERUMTechnology/go-aerum-new/swarm/api/http"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/fuse"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/log"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/network"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/network/stream"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/pss"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/state"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/storage"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/storage/mock"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/storage/mru"
+	"github.com/AERUMTechnology/go-aerum-new/swarm/tracing"
 )
 
 var (

@@ -1,18 +1,18 @@
-// Copyright 2014 The go-aerum Authors
-// This file is part of go-aerum.
+// Copyright 2014 The go-aerum-new Authors
+// This file is part of go-aerum-new.
 //
-// go-aerum is free software: you can redistribute it and/or modify
+// go-aerum-new is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum is distributed in the hope that it will be useful,
+// go-aerum-new is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
 
 // geth is the official command-line client for AERUMTechnology.
 package main
@@ -28,16 +28,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum/accounts"
-	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum/cmd/utils"
-	"github.com/AERUMTechnology/go-aerum/console"
-	"github.com/AERUMTechnology/go-aerum/eth"
-	"github.com/AERUMTechnology/go-aerum/ethclient"
-	"github.com/AERUMTechnology/go-aerum/internal/debug"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/metrics"
-	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum-new/accounts"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum-new/console"
+	"github.com/AERUMTechnology/go-aerum-new/eth"
+	"github.com/AERUMTechnology/go-aerum-new/ethclient"
+	"github.com/AERUMTechnology/go-aerum-new/internal/debug"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/metrics"
+	"github.com/AERUMTechnology/go-aerum-new/node"
 	"github.com/elastic/gosigar"
 	"gopkg.in/urfave/cli.v1"
 )
@@ -50,7 +50,7 @@ var (
 	// Git SHA1 commit hash of the release (set via linker flags)
 	gitCommit = ""
 	// The app that holds all commands and flags.
-	app = utils.NewApp(gitCommit, "the go-aerum command line interface")
+	app = utils.NewApp(gitCommit, "the go-aerum-new command line interface")
 	// flags that configure the node
 	nodeFlags = []cli.Flag{
 		utils.IdentityFlag,
@@ -164,7 +164,7 @@ func init() {
 	// Initialize the CLI app and start Geth
 	app.Action = aerum
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2018 The go-aerum Authors"
+	app.Copyright = "Copyright 2018 The go-aerum-new Authors"
 	app.Commands = []cli.Command{
 		// See chaincmd.go:
 		initCommand,

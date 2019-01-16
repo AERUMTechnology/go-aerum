@@ -1,18 +1,18 @@
-// Copyright 2016 The go-aerum Authors
-// This file is part of go-aerum.
+// Copyright 2016 The go-aerum-new Authors
+// This file is part of go-aerum-new.
 //
-// go-aerum is free software: you can redistribute it and/or modify
+// go-aerum-new is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum is distributed in the hope that it will be useful,
+// go-aerum-new is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -24,10 +24,10 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/AERUMTechnology/go-aerum/cmd/utils"
-	"github.com/AERUMTechnology/go-aerum/console"
-	"github.com/AERUMTechnology/go-aerum/node"
-	"github.com/AERUMTechnology/go-aerum/rpc"
+	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum-new/console"
+	"github.com/AERUMTechnology/go-aerum-new/node"
+	"github.com/AERUMTechnology/go-aerum-new/rpc"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -43,7 +43,7 @@ var (
 		Description: `
 The AERUM console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/AERUMTechnology/go-aerum/wiki/JavaScript-Console.`,
+See https://github.com/AERUMTechnology/go-aerum-new/wiki/JavaScript-Console.`,
 	}
 
 	attachCommand = cli.Command{
@@ -56,7 +56,7 @@ See https://github.com/AERUMTechnology/go-aerum/wiki/JavaScript-Console.`,
 		Description: `
 The AERUM console is an interactive shell for the JavaScript runtime environment
 which exposes a node admin interface as well as the Ðapp JavaScript API.
-See https://github.com/AERUMTechnology/go-aerum/wiki/JavaScript-Console.
+See https://github.com/AERUMTechnology/go-aerum-new/wiki/JavaScript-Console.
 This command allows to open a console on a running aerum node.`,
 	}
 
@@ -69,7 +69,7 @@ This command allows to open a console on a running aerum node.`,
 		Category:  "CONSOLE COMMANDS",
 		Description: `
 The JavaScript VM exposes a node admin interface as well as the Ðapp
-JavaScript API. See https://github.com/AERUMTechnology/go-aerum/wiki/JavaScript-Console`,
+JavaScript API. See https://github.com/AERUMTechnology/go-aerum-new/wiki/JavaScript-Console`,
 	}
 )
 

@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"strings"
 
-	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
 	"gopkg.in/urfave/cli.v1"
 )
 

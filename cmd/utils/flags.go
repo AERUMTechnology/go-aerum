@@ -1,20 +1,20 @@
-// Copyright 2015 The go-aerum Authors
-// This file is part of go-aerum.
+// Copyright 2015 The go-aerum-new Authors
+// This file is part of go-aerum-new.
 //
-// go-aerum is free software: you can redistribute it and/or modify
+// go-aerum-new is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum is distributed in the hope that it will be useful,
+// go-aerum-new is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
 
-// Package utils contains internal helper functions for go-aerum commands.
+// Package utils contains internal helper functions for go-aerum-new commands.
 package utils
 
 import (
@@ -29,35 +29,35 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum/accounts"
-	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum/common"
-	"github.com/AERUMTechnology/go-aerum/common/fdlimit"
-	"github.com/AERUMTechnology/go-aerum/consensus"
-	"github.com/AERUMTechnology/go-aerum/consensus/clique"
-	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
-	"github.com/AERUMTechnology/go-aerum/core"
-	"github.com/AERUMTechnology/go-aerum/core/state"
-	"github.com/AERUMTechnology/go-aerum/core/vm"
-	"github.com/AERUMTechnology/go-aerum/crypto"
-	"github.com/AERUMTechnology/go-aerum/dashboard"
-	"github.com/AERUMTechnology/go-aerum/eth"
-	"github.com/AERUMTechnology/go-aerum/eth/downloader"
-	"github.com/AERUMTechnology/go-aerum/eth/gasprice"
-	"github.com/AERUMTechnology/go-aerum/ethdb"
-	"github.com/AERUMTechnology/go-aerum/ethstats"
-	"github.com/AERUMTechnology/go-aerum/les"
-	"github.com/AERUMTechnology/go-aerum/log"
-	"github.com/AERUMTechnology/go-aerum/metrics"
-	"github.com/AERUMTechnology/go-aerum/metrics/influxdb"
-	"github.com/AERUMTechnology/go-aerum/node"
-	"github.com/AERUMTechnology/go-aerum/p2p"
-	"github.com/AERUMTechnology/go-aerum/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum/p2p/discv5"
-	"github.com/AERUMTechnology/go-aerum/p2p/nat"
-	"github.com/AERUMTechnology/go-aerum/p2p/netutil"
-	"github.com/AERUMTechnology/go-aerum/params"
-	whisper "github.com/AERUMTechnology/go-aerum/whisper/whisperv6"
+	"github.com/AERUMTechnology/go-aerum-new/accounts"
+	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum-new/common/fdlimit"
+	"github.com/AERUMTechnology/go-aerum-new/consensus"
+	"github.com/AERUMTechnology/go-aerum-new/consensus/clique"
+	"github.com/AERUMTechnology/go-aerum-new/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum-new/core"
+	"github.com/AERUMTechnology/go-aerum-new/core/state"
+	"github.com/AERUMTechnology/go-aerum-new/core/vm"
+	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum-new/dashboard"
+	"github.com/AERUMTechnology/go-aerum-new/eth"
+	"github.com/AERUMTechnology/go-aerum-new/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum-new/eth/gasprice"
+	"github.com/AERUMTechnology/go-aerum-new/ethdb"
+	"github.com/AERUMTechnology/go-aerum-new/ethstats"
+	"github.com/AERUMTechnology/go-aerum-new/les"
+	"github.com/AERUMTechnology/go-aerum-new/log"
+	"github.com/AERUMTechnology/go-aerum-new/metrics"
+	"github.com/AERUMTechnology/go-aerum-new/metrics/influxdb"
+	"github.com/AERUMTechnology/go-aerum-new/node"
+	"github.com/AERUMTechnology/go-aerum-new/p2p"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/discv5"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/nat"
+	"github.com/AERUMTechnology/go-aerum-new/p2p/netutil"
+	"github.com/AERUMTechnology/go-aerum-new/params"
+	whisper "github.com/AERUMTechnology/go-aerum-new/whisper/whisperv6"
 	"gopkg.in/urfave/cli.v1"
 )
 
