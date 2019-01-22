@@ -17,7 +17,6 @@
 package core
 
 import (
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"github.com/AERUMTechnology/go-aerum-new/common"
@@ -269,7 +268,7 @@ func (pool *TxPool) loop() {
 	report := time.NewTicker(statsReportInterval)
 	defer report.Stop()
 
-	aerumEvictor := time.NewTicker(1 * time.Second)
+	aerumEvictor := time.NewTicker(3 * time.Second)
 	defer aerumEvictor.Stop()
 
 	evict := time.NewTicker(evictionInterval)
@@ -315,20 +314,12 @@ func (pool *TxPool) loop() {
 			// Handle inactive account transaction eviction
 		case <-aerumEvictor.C:
 			pool.mu.Lock()
-			fmt.Println("Current emergency release is set at: ", pool.config.ReleaseLimit)
-			for addr, txns := range pool.pending {
-				addressString := hex.EncodeToString(addr[:])
-				currentPendingPool := len(pool.pending)
 
-				if uint64(currentPendingPool) > pool.config.ReleaseLimit {
-					fmt.Printf("<============== Node Overloaded with %d pending txn's - Emergency txpool dump in progress ==============> ", len(pool.pending))
-					for _, v := range txns.txs.items {
-						pool.removeTx(v.Hash(), true)
-						pool.all.Remove(v.Hash())
-						fmt.Printf("Account %s has had all recent queued txns purged. resubmit at nonce #%d \n\n", addressString, pool.currentState.GetNonce(addr))
-					}
+			if uint64(pool.all.Count()) > pool.config.ReleaseLimit {
+				log.Info("Emergency transaction removal", "allowed", pool.config.ReleaseLimit, "actual", pool.all.Count())
+				for hash := range pool.all.all {
+					pool.removeTx(hash, true)
 				}
-
 			}
 
 			pool.mu.Unlock()
