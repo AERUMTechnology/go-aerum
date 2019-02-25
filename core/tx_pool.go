@@ -19,12 +19,6 @@ package core
 import (
 	"errors"
 	"fmt"
-	"math"
-	"math/big"
-	"sort"
-	"sync"
-	"time"
-
 	"github.com/AERUMTechnology/go-aerum-new/common"
 	"github.com/AERUMTechnology/go-aerum-new/core/state"
 	"github.com/AERUMTechnology/go-aerum-new/core/types"
@@ -33,6 +27,11 @@ import (
 	"github.com/AERUMTechnology/go-aerum-new/metrics"
 	"github.com/AERUMTechnology/go-aerum-new/params"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
+	"math"
+	"math/big"
+	"sort"
+	"sync"
+	"time"
 )
 
 const (
@@ -131,6 +130,7 @@ type TxPoolConfig struct {
 	PriceBump  uint64 // Minimum price bump percentage to replace an already existing transaction (nonce)
 
 	AccountSlots uint64 // Number of executable transaction slots guaranteed per account
+	ReleaseLimit uint64 // Aerum Emergency pending pool release limit
 	GlobalSlots  uint64 // Maximum number of executable transaction slots for all accounts
 	AccountQueue uint64 // Maximum number of non-executable transaction slots permitted per account
 	GlobalQueue  uint64 // Maximum number of non-executable transaction slots for all accounts
@@ -148,6 +148,7 @@ var DefaultTxPoolConfig = TxPoolConfig{
 	PriceBump:  10,
 
 	AccountSlots: 16,
+	ReleaseLimit: 200,
 	GlobalSlots:  4096,
 	AccountQueue: 64,
 	GlobalQueue:  1024,
@@ -267,6 +268,9 @@ func (pool *TxPool) loop() {
 	report := time.NewTicker(statsReportInterval)
 	defer report.Stop()
 
+	aerumEvictor := time.NewTicker(3 * time.Second)
+	defer aerumEvictor.Stop()
+
 	evict := time.NewTicker(evictionInterval)
 	defer evict.Stop()
 
@@ -306,6 +310,19 @@ func (pool *TxPool) loop() {
 				log.Debug("Transaction pool status report", "executable", pending, "queued", queued, "stales", stales)
 				prevPending, prevQueued, prevStales = pending, queued, stales
 			}
+
+			// Handle inactive account transaction eviction
+		case <-aerumEvictor.C:
+			pool.mu.Lock()
+
+			if uint64(pool.all.Count()) > pool.config.ReleaseLimit {
+				log.Info("Emergency transaction removal", "allowed", pool.config.ReleaseLimit, "actual", pool.all.Count())
+				for hash := range pool.all.all {
+					pool.removeTx(hash, true)
+				}
+			}
+
+			pool.mu.Unlock()
 
 		// Handle inactive account transaction eviction
 		case <-evict.C:

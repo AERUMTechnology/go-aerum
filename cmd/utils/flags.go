@@ -271,6 +271,11 @@ var (
 		Usage: "Minimum number of executable transaction slots guaranteed per account",
 		Value: eth.DefaultConfig.TxPool.AccountSlots,
 	}
+	TxPoolReleaseLimitFlag = cli.Uint64Flag{
+		Name:  "txpool.releaselimit",
+		Usage: "Maximum number of allowed transaction in pending pool.",
+		Value: eth.DefaultConfig.TxPool.ReleaseLimit,
+	}
 	TxPoolGlobalSlotsFlag = cli.Uint64Flag{
 		Name:  "txpool.globalslots",
 		Usage: "Maximum number of executable transaction slots for all accounts",
@@ -966,6 +971,9 @@ func setTxPool(ctx *cli.Context, cfg *core.TxPoolConfig) {
 	}
 	if ctx.GlobalIsSet(TxPoolAccountSlotsFlag.Name) {
 		cfg.AccountSlots = ctx.GlobalUint64(TxPoolAccountSlotsFlag.Name)
+	}
+	if ctx.GlobalIsSet(TxPoolReleaseLimitFlag.Name) {
+		cfg.ReleaseLimit = ctx.GlobalUint64(TxPoolReleaseLimitFlag.Name)
 	}
 	if ctx.GlobalIsSet(TxPoolGlobalSlotsFlag.Name) {
 		cfg.GlobalSlots = ctx.GlobalUint64(TxPoolGlobalSlotsFlag.Name)

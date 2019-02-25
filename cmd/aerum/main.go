@@ -28,7 +28,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/elastic/gosigar"
 	"github.com/AERUMTechnology/go-aerum-new/accounts"
 	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
 	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
@@ -39,6 +38,7 @@ import (
 	"github.com/AERUMTechnology/go-aerum-new/log"
 	"github.com/AERUMTechnology/go-aerum-new/metrics"
 	"github.com/AERUMTechnology/go-aerum-new/node"
+	"github.com/elastic/gosigar"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -78,6 +78,7 @@ var (
 		utils.TxPoolPriceLimitFlag,
 		utils.TxPoolPriceBumpFlag,
 		utils.TxPoolAccountSlotsFlag,
+		utils.TxPoolReleaseLimitFlag,
 		utils.TxPoolGlobalSlotsFlag,
 		utils.TxPoolAccountQueueFlag,
 		utils.TxPoolGlobalQueueFlag,
