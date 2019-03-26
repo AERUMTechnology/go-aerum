@@ -1,47 +1,108 @@
-## Go AERUMTechnology
+## Go AERUM 
 
-Official golang implementation of the AERUMTechnology protocol featuring our custom DxPoS Consensus Algorithm (Delegated Cross-chain Proof-of-stake).
+Official Golang implementation of the AERUM Technology protocol featuring our custom DxPoS Consensus Algorithm (Delegated Cross-chain Proof-of-stake).
 
 If you need any assistance please do not hesitate to contact one of the AERUM team via our twitter @aerum_official or if you would like more information 
 in person feel free to buy us a beer (or coffee).
 
+## Pre-requisites
+a) You will need to install Golang and add it to your ```$PATH``` variable, We recommend running go version go1.10.8 or greater
+b) Clone this repository, ```cd``` into it and run ```make all``` this will create all the aerum binaries necessary to run go-aerum withing the ```./build/bin``` folder, it will be necessary to also add this path to your operating systems ```$PATH``` variable.
+c) Next create a folder somewhere on your os and name it appropriately, it will be your data directory holding all the chains data including keystores for whatever accounts you generate. It will be used during genesis creation with the ```--datadir``` flag
+d) next up you will need to get the Genesis file from Aerums S3 storage here:
+```https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/mainnet/genesis.json``` 
+if you wish to develop with your testnet you can also get the testnet genesis from here:
+```https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/testnet/genesis.json```
+d) Initialise the genesis using the following command: ```aerum --datadir /your/datadir init genesis.json```
+  i. (Optional) If you wish to create an account at this stage you can also do that using ```aerum --datadir /your/datadir account new``` and typing your password when prompted
+  ii. (Optional) Aerum's infrastructure team also recommend another step which greatly helps P2P discovery of your node, place a file inside of the --datadir directory within the folder called ```aerum``` and call it called static-nodes.json use either the mainnet bootnodes which can be found here 
+  ```https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/mainnet/static-nodes.json``` or the testnet bootnodes which can be found here 
+  ```https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/testnet/static-nodes.json```
+e) The next step we will provide you with a startup script that will start a standard Aerum node which can be used as a gateway with which you can connect to locally, another tip from Aerums infrastructure team due to routing on AWS it is important to specify the correct external IP of your machine, if you install the ```dig``` command line utility and use our script below it will automatically populate this for you
 
-## Installation
+### Install Dig
+```
+sudo apt update
+sudo apt install dnsutils
+```
 
-1. clone repo, ```cd``` into it and run ```make all``` this will create all the aerum binaries on your os (it may also be necessary to add them to your path vars).
+### Example bash script to start a local node connected to the Aerum Mainnet
+```
+#!/bin/bash
+printf "\n============================> AERUM Start script for MAINNET local Gateway <====================================\n\n" 
+IP="$(dig +short myip.opendns.com @resolver1.opendns.com)" 
+aerum --datadir=/your/datadir\
+    --atmos.ethereum.endpoint "https://mainnet.infura.io"\
+    --txpool.releaselimit "3000" \
+    --targetgaslimit "21000000" \
+    --gasprice "1000000000"\
+    --ws\
+    --wsaddr="0.0.0.0"\
+    --wsapi db,eth,debug,net,txpool,web3\
+    --wsorigins "*"\
+    --rpc\
+    --rpcapi db,eth,debug,net,txpool,web3\
+    --rpcaddr "0.0.0.0"\
+    --rpcvhosts "*"\
+    --rpccorsdomain "*"\
+    --cache="2048"\
+    --syncmode 'full' \
+    --networkid "538"\
+    --nat "extip:$IP"\
+    console
+```
 
-2. Generate a genesis file: the easiest way to do this is to run the ```puppeth``` binary (located here ./go-aerum-new/build/bin/aerum). It will populate the genesis with our custom ATMOS configuration parameters as well as call our governance contract to get the current list of our bootstrap delegates and populate it with them.
+### Example bash script to start a local node connected to the Aerum Testnet
+```
+#!/bin/bash
+printf "\n============================> AERUM Start script for TESTNET local Gateway <====================================\n\n" 
+IP="$(dig +short myip.opendns.com @resolver1.opendns.com)" 
+aerum --datadir=/your/datadir\
+    --atmos.ethereum.endpoint "https://rinkeby.infura.io"\
+    --txpool.releaselimit "3000" \
+    --targetgaslimit "21000000" \
+    --gasprice "1000000000"\
+    --ws\
+    --wsaddr="0.0.0.0"\
+    --wsapi db,eth,debug,net,txpool,web3\
+    --wsorigins "*"\
+    --rpc\
+    --rpcapi db,eth,debug,net,txpool,web3\
+    --rpcaddr "0.0.0.0"\
+    --rpcvhosts "*"\
+    --rpccorsdomain "*"\
+    --cache="2048"\
+    --syncmode 'full' \
+    --networkid "418313827693"\
+    --nat "extip:$IP"\
+    console
+  ```
+  
+  
+  
 
-3. create a data dir on your OS and generally you can run something like this for a normal standard node (replace ./go-aerum-new/build/bin/aerum if you update your $PATH variables and your data dir):
 
-``` ./go-aerum-new/build/bin/aerum --datadir=./datadir/ --atmos.ethereum.endpoint="https://rinkeby.infura.io" --syncmode 'full' --networkid 418313827693 --ws --wsaddr="0.0.0.0" --wsorigins "*" --wsapi admin,db,eth,debug,miner,net,txpool,clique,web3 --rpc --rpcapi admin,db,eth,debug,miner,net,txpool,clique,web3 --rpcaddr "0.0.0.0" --rpccorsdomain "*" --verbosity="3" --fast --targetgaslimit="25000000" --gasprice="1000000000" --txpool.globalslots="65536" --txpool.accountqueue="1024" --txpool.globalqueue="16384" --cache=1024 console```
+# In Depth Documentation
 
-or if you are a delegate you would run something similar to this:
-
-```./go-aerum-new/build/bin/aerum --datadir=./datadir/ --atmos.ethereum.endpoint="https://rinkeby.infura.io" --mine --unlock b7668f414ccb7ba45b5ac1a61ce5201e3910ba17 --password <(echo "your password goes here") --rpc --rpcapi admin,db,eth,debug,miner,net,txpool,clique,web3 --rpcport "8547" --rpcaddr "0.0.0.0" -rpcvhosts="*" --rpccorsdomain "*" --networkid="418313827693" --verbosity="3" --fast --targetgaslimit="25000000" --gasprice="1000000000" --txpool.globalslots="65536" --txpool.accountqueue="1024" --txpool.globalqueue="16384" --cache=1024 console```
-
-<<<<<<< HEAD
-4. If you need to tweak anything to do with the ATMOS consensus check out the file ```./params/atmos_params.go```
-=======
 The go-aerum-new project comes with several wrappers/executables found in the `cmd` directory.
 
 | Command    | Description |
 |:----------:|-------------|
-| **`geth`** | Our main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `geth --help` and the [CLI Wiki page](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options) for command line options. |
+| **`aerum`** | Our main Ethereum CLI client. It is the entry point into the Ethereum network (main-, test- or private net), capable of running as a full node (default) archive node (retaining all historical state) or a light node (retrieving data live). It can be used by other processes as a gateway into the Ethereum network via JSON RPC endpoints exposed on top of HTTP, WebSocket and/or IPC transports. `aerum --help` and the [CLI Wiki page](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options) for command line options. |
 | `abigen` | Source code generator to convert Ethereum contract definitions into easy to use, compile-time type-safe Go packages. It operates on plain [Ethereum contract ABIs](https://github.com/ethereum/wiki/wiki/Ethereum-Contract-ABI) with expanded functionality if the contract bytecode is also available. However it also accepts Solidity source files, making development much more streamlined. Please see our [Native DApps](https://github.com/ethereum/go-ethereum/wiki/Native-DApps:-Go-bindings-to-Ethereum-contracts) wiki page for details. |
 | `bootnode` | Stripped down version of our Ethereum client implementation that only takes part in the network node discovery protocol, but does not run any of the higher level application protocols. It can be used as a lightweight bootstrap node to aid in finding peers in private networks. |
 | `evm` | Developer utility version of the EVM (Ethereum Virtual Machine) that is capable of running bytecode snippets within a configurable environment and execution mode. Its purpose is to allow isolated, fine-grained debugging of EVM opcodes (e.g. `evm --code 60ff60ff --debug`). |
-| `gethrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/ethereum/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereum/rpc-tests/blob/master/README.md) for details. |
+| `aerumrpctest` | Developer utility tool to support our [ethereum/rpc-test](https://github.com/ethereum/rpc-tests) test suite which validates baseline conformity to the [Ethereum JSON RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC) specs. Please see the [test suite's readme](https://github.com/ethereum/rpc-tests/blob/master/README.md) for details. |
 | `rlpdump` | Developer utility tool to convert binary RLP ([Recursive Length Prefix](https://github.com/ethereum/wiki/wiki/RLP)) dumps (data encoding used by the Ethereum protocol both network as well as consensus wise) to user friendlier hierarchical representation (e.g. `rlpdump --hex CE0183FFFFFFC4C304050583616263`). |
 | `swarm`    | Swarm daemon and tools. This is the entrypoint for the Swarm network. `swarm --help` for command line options and subcommands. See [Swarm README](https://github.com/ethereum/go-ethereum/tree/master/swarm) for more information. |
 | `puppeth`    | a CLI wizard that aids in creating a new Ethereum network. |
 
-## Running geth
+## Running aerum
 
 Going through all the possible command line flags is out of scope here (please consult our
 [CLI Wiki page](https://github.com/ethereum/go-ethereum/wiki/Command-Line-Options)), but we've
 enumerated a few common parameter combos to get you up to speed quickly on how you can run your
-own Geth instance.
+own Aerum instance.
 
 ### Full node on the main Ethereum network
 
@@ -51,19 +112,19 @@ the user doesn't care about years-old historical data, so we can fast-sync quick
 state of the network. To do so:
 
 ```
-$ geth console
+$ aerum console
 ```
 
 This command will:
 
- * Start geth in fast sync mode (default, can be changed with the `--syncmode` flag), causing it to
+ * Start aerum in fast sync mode (default, can be changed with the `--syncmode` flag), causing it to
    download more data in exchange for avoiding processing the entire history of the Ethereum network,
    which is very CPU intensive.
- * Start up Geth's built-in interactive [JavaScript console](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console),
+ * Start up aerum's built-in interactive [JavaScript console](https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console),
    (via the trailing `console` subcommand) through which you can invoke all official [`web3` methods](https://github.com/ethereum/wiki/wiki/JavaScript-API)
-   as well as Geth's own [management APIs](https://github.com/ethereum/go-ethereum/wiki/Management-APIs).
-   This too is optional and if you leave it out you can always attach to an already running Geth instance
-   with `geth attach`.
+   as well as aerum's own [management APIs](https://github.com/ethereum/go-ethereum/wiki/Management-APIs).
+   This too is optional and if you leave it out you can always attach to an already running aerum instance
+   with `aerum attach`.
 
 ### Full node on the Ethereum test network
 
@@ -73,25 +134,25 @@ entire system. In other words, instead of attaching to the main network, you wan
 network with your node, which is fully equivalent to the main network, but with play-Ether only.
 
 ```
-$ geth --testnet console
+$ aerum --testnet console
 ```
 
 The `console` subcommand have the exact same meaning as above and they are equally useful on the
 testnet too. Please see above for their explanations if you've skipped to here.
 
-Specifying the `--testnet` flag however will reconfigure your Geth instance a bit:
+Specifying the `--testnet` flag however will reconfigure your aerum instance a bit:
 
- * Instead of using the default data directory (`~/.ethereum` on Linux for example), Geth will nest
+ * Instead of using the default data directory (`~/.ethereum` on Linux for example), aerum will nest
    itself one level deeper into a `testnet` subfolder (`~/.ethereum/testnet` on Linux). Note, on OSX
    and Linux this also means that attaching to a running testnet node requires the use of a custom
-   endpoint since `geth attach` will try to attach to a production node endpoint by default. E.g.
-   `geth attach <datadir>/testnet/geth.ipc`. Windows users are not affected by this.
+   endpoint since `aerum attach` will try to attach to a production node endpoint by default. E.g.
+   `aerum attach <datadir>/testnet/aerum.ipc`. Windows users are not affected by this.
  * Instead of connecting the main Ethereum network, the client will connect to the test network,
    which uses different P2P bootnodes, different network IDs and genesis states.
    
 *Note: Although there are some internal protective measures to prevent transactions from crossing
 over between the main network and test network, you should make sure to always use separate accounts
-for play-money and real-money. Unless you manually move accounts, Geth will by default correctly
+for play-money and real-money. Unless you manually move accounts, aerum will by default correctly
 separate the two networks and will not make any accounts available between them.*
 
 ### Full node on the Rinkeby test network
@@ -99,24 +160,24 @@ separate the two networks and will not make any accounts available between them.
 The above test network is a cross client one based on the ethash proof-of-work consensus algorithm. As such, it has certain extra overhead and is more susceptible to reorganization attacks due to the network's low difficulty / security. Go Ethereum also supports connecting to a proof-of-authority based test network called [*Rinkeby*](https://www.rinkeby.io) (operated by members of the community). This network is lighter, more secure, but is only supported by go-aerum-new.
 
 ```
-$ geth --rinkeby console
+$ aerum --rinkeby console
 ```
 
 ### Configuration
 
-As an alternative to passing the numerous flags to the `geth` binary, you can also pass a configuration file via:
+As an alternative to passing the numerous flags to the `aerum` binary, you can also pass a configuration file via:
 
 ```
-$ geth --config /path/to/your_config.toml
+$ aerum --config /path/to/your_config.toml
 ```
 
 To get an idea how the file should look like you can use the `dumpconfig` subcommand to export your existing configuration:
 
 ```
-$ geth --your-favourite-flags dumpconfig
+$ aerum --your-favourite-flags dumpconfig
 ```
 
-*Note: This works only with geth v1.6.0 and above.*
+*Note: This works only with aerum v1.6.0 and above.*
 
 #### Docker quick start
 
@@ -128,19 +189,19 @@ docker run -d --name ethereum-node -v /Users/alice/ethereum:/root \
            ethereum/client-go
 ```
 
-This will start geth in fast-sync mode with a DB memory allowance of 1GB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
+This will start aerum in fast-sync mode with a DB memory allowance of 1GB just as the above command does.  It will also create a persistent volume in your home directory for saving your blockchain as well as map the default ports. There is also an `alpine` tag available for a slim version of the image.
 
-Do not forget `--rpcaddr 0.0.0.0`, if you want to access RPC from other containers and/or hosts. By default, `geth` binds to the local interface and RPC endpoints is not accessible from the outside.
+Do not forget `--rpcaddr 0.0.0.0`, if you want to access RPC from other containers and/or hosts. By default, `aerum` binds to the local interface and RPC endpoints is not accessible from the outside.
 
-### Programatically interfacing Geth nodes
+### Programatically interfacing aerum nodes
 
-As a developer, sooner rather than later you'll want to start interacting with Geth and the Ethereum
-network via your own programs and not manually through the console. To aid this, Geth has built-in
+As a developer, sooner rather than later you'll want to start interacting with aerum and the Ethereum
+network via your own programs and not manually through the console. To aid this, aerum has built-in
 support for a JSON-RPC based APIs ([standard APIs](https://github.com/ethereum/wiki/wiki/JSON-RPC) and
-[Geth specific APIs](https://github.com/ethereum/go-ethereum/wiki/Management-APIs)). These can be
+[aerum specific APIs](https://github.com/ethereum/go-ethereum/wiki/Management-APIs)). These can be
 exposed via HTTP, WebSockets and IPC (unix sockets on unix based platforms, and named pipes on Windows).
 
-The IPC interface is enabled by default and exposes all the APIs supported by Geth, whereas the HTTP
+The IPC interface is enabled by default and exposes all the APIs supported by aerum, whereas the HTTP
 and WS interfaces need to manually be enabled and only expose a subset of APIs due to security reasons.
 These can be turned on/off and configured as you'd expect.
 
@@ -161,7 +222,7 @@ HTTP based JSON-RPC API options:
   * `--ipcpath` Filename for IPC socket/pipe within the datadir (explicit paths escape it)
 
 You'll need to use your own programming environments' capabilities (libraries, tools, etc) to connect
-via HTTP, WS or IPC to a Geth node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification)
+via HTTP, WS or IPC to a aerum node configured with the above flags and you'll need to speak [JSON-RPC](http://www.jsonrpc.org/specification)
 on all transports. You can reuse the same connection for multiple requests!
 
 **Note: Please understand the security implications of opening up an HTTP/WS based transport before
@@ -211,11 +272,11 @@ configs:
 }
 ```
 
-With the genesis state defined in the above JSON file, you'll need to initialize **every** Geth node
+With the genesis state defined in the above JSON file, you'll need to initialize **every** aerum node
 with it prior to starting it up to ensure all blockchain parameters are correctly set:
 
 ```
-$ geth init path/to/genesis.json
+$ aerum init path/to/genesis.json
 ```
 
 #### Creating the rendezvous point
@@ -234,17 +295,17 @@ that other nodes can use to connect to it and exchange peer information. Make su
 displayed IP address information (most probably `[::]`) with your externally accessible IP to get the
 actual `enode` URL.
 
-*Note: You could also use a full fledged Geth node as a bootnode, but it's the less recommended way.*
+*Note: You could also use a full fledged aerum node as a bootnode, but it's the less recommended way.*
 
 #### Starting up your member nodes
 
 With the bootnode operational and externally reachable (you can try `telnet <ip> <port>` to ensure
-it's indeed reachable), start every subsequent Geth node pointed to the bootnode for peer discovery
+it's indeed reachable), start every subsequent aerum node pointed to the bootnode for peer discovery
 via the `--bootnodes` flag. It will probably also be desirable to keep the data directory of your
 private network separated, so do also specify a custom `--datadir` flag.
 
 ```
-$ geth --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
+$ aerum --datadir=path/to/custom/data/folder --bootnodes=<bootnode-enode-url-from-above>
 ```
 
 *Note: Since your network will be completely cut off from the main and test networks, you'll also
@@ -259,11 +320,11 @@ repository.
 
 In a private network setting however, a single CPU miner instance is more than enough for practical
 purposes as it can produce a stable stream of blocks at the correct intervals without needing heavy
-resources (consider running on a single thread, no need for multiple ones either). To start a Geth
+resources (consider running on a single thread, no need for multiple ones either). To start a aerum
 instance for mining, run it with all your usual flags, extended by:
 
 ```
-$ geth <usual-flags> --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000
+$ aerum <usual-flags> --mine --minerthreads=1 --etherbase=0x0000000000000000000000000000000000000000
 ```
 
 Which will start mining blocks and transactions on a single CPU thread, crediting all proceedings to
