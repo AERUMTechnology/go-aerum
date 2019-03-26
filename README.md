@@ -30,7 +30,7 @@ If you need any assistance please do not hesitate to contact the AERUM Engineeri
 * WSS Gateway to Mainnet: ```wss://main-gw-500.aerum.net/wss```
 
 
-## Pre-requisites
+## Prerequisites
 For optimal performance the Aerum Engineering team recommend running your nodes with at least:
 1. Ubuntu 18.04.2 LTS (or any Debian based Dist)
 2. 120GB SSD
