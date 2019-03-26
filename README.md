@@ -1,19 +1,20 @@
 ![alt text](https://aerum.com/images/AerumLogoDark.svg "Aerum Technology") 
 
-AERUM Technology go-aerum
+AERUM Technology - Making Blockchain Blossom
 ======
-Official Golang implementation of the AERUM Technology protocol featuring our custom DxPoS Consensus Algorithm (Delegated Cross-chain Proof-of-stake).
+The Official Golang implementation of the AERUM Technology high performance, scalable, network protocol featuring our bespoke DxPoS Consensus Algorithm (Delegated Crosschain Proof-of-Stake).
 
-If you need any assistance please do not hesitate to contact one of the AERUM team via our twitter @aerum_official or if you would like more information 
-in person feel free to buy us a beer (or coffee).
+If you need any assistance please do not hesitate to contact the AERUM Engineering team via our twitter [@aerum_official](https://twitter.com/aerum_official)  or if you would like more information in person feel free to buy us a beer (or coffee).
 
 ### Want to know more about Aerum, check out the following resources:
 * [aerum.com Website](https://aerum.com/en)
 * [White paper](https://aerum.com/en/white-paper)
 * [Lite paper](https://aerum.com/en/lite-paper)
 * [Fact Book](https://aerum.com/en/factbook)
-* [Cure53 Audit of Token Contract](https://aerum.com/en/audit-one)
-* [Cure53 Audit of CrowdSale Contract](https://aerum.com/en/audit-two)
+* [Video: Aerum in a nutshell](https://www.youtube.com/watch?time_continue=14&v=P5ikno_nd3E)
+* [Video: Aerum goes BALLISTIC!](https://www.youtube.com/watch?v=q2L98igthz0)
+* [Cure53 Audit: Aerum Token Contract](https://aerum.com/en/audit-one)
+* [Cure53 Audit: Aerum CrowdSale Contract](https://aerum.com/en/audit-two)
 
 ### Our Web wallet and demo page
 * [Aerums Web Wallet](https://wallet.aerum.net/)
@@ -40,13 +41,18 @@ For optimal performance the Aerum Engineering team recommend running your nodes 
 
 ## Setup
 1. You will need to install Golang and add it to your ```$PATH``` variable, We recommend running go version go1.10.8 or greater
-2. Clone this repository, ```cd``` into it and run ```make all``` this will create all the aerum binaries necessary to run go-aerum withing the ```./build/bin``` folder, it will be necessary to also add this path to your operating systems ```$PATH``` variable.
-3. Next create a folder somewhere on your os and name it appropriately, it will be your data directory holding all the chains data including keystores for whatever accounts you generate. It will be used during genesis creation with the ```--datadir``` flag
-4. Next up you will need to get the Genesis file from Aerums S3 storage [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/mainnet/genesis.json) or, alternatively if you wish to develop with our testnet you can also get the testnet genesis from [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/testnet/genesis.json)
-5. Initialise the genesis using the following command: ```aerum --datadir /your/datadir init genesis.json```
-  ⋅⋅* (Optional) If you wish to create an account at this stage you can also do that using ```aerum --datadir /your/datadir account new``` and typing your password when prompted
-  ⋅⋅* (Optional) Aerum's infrastructure team also recommend another step which greatly helps P2P discovery of your node, place a file inside of the --datadir directory within the folder called ```aerum``` and call it called static-nodes.json use either the mainnet bootnodes which can be found [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/mainnet/static-nodes.json) or the testnet bootnodes which can be found [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/testnet/static-nodes.json) 
-6. The next step we will provide you with a startup script that will start a standard Aerum node which can be used as a gateway with which you can connect to locally, another tip from Aerums infrastructure team due to routing on AWS it is important to specify the correct external IP of your machine, if you install the ```dig``` command line utility and use our script below it will automatically populate this for you
+2. Clone this repository
+    * then ```cd``` into it
+    * Run ```make all``` this will create all the aerum binaries necessary to run go-aerum within the ```./build/bin``` folder
+    * It will be necessary to also add this path to your operating systems ```$PATH``` variable.
+3. Next create a folder somewhere on your os and name it appropriately - it will be your data directory holding all the chains data including keystores for whatever accounts you generate. It will be used during genesis creation with the ```--datadir``` flag
+4. Next up you will need to get the Genesis file from Aerums S3 storage [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/mainnet/genesis.json) or, alternatively, if you wish to develop with our testnet you can also get the testnet genesis from [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/testnet/genesis.json).
+5. Initialise the genesis using the following command: 
+    * ```aerum --datadir /your/datadir init genesis.json```
+    * (Optional) If you wish to create an account at this stage you can also do that using ```aerum --datadir /your/datadir account new```  and typing your password when prompted
+    * (Optional) Aerum's infrastructure team also recommend another step which greatly helps P2P discovery of your node, place a file inside of the --datadir directory within the folder called ```/your/datadir/aerum``` and call it called ```static-nodes.json``` use either the Mainnet Bootnodes which can be found [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/mainnet/static-nodes.json) or the Testnet Bootnodes which can be found [HERE](https://s3-eu-west-1.amazonaws.com/aerum-assets/genesis/testnet/static-nodes.json) 
+6. The next step we will provide you with a startup script that will start a standard Aerum node which can be used as a gateway with which you can connect to locally.
+    * (Optional) Another tip from the Aerum Engineering team it is important to specify the correct external IP of your machine, to simplify this install the ```dig``` command line utility and use our script below it will automatically populate your external IP for you and vastly help with P2P Discovery.
 
 ### Install Dig
 ```
