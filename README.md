@@ -11,7 +11,9 @@ in person feel free to buy us a beer (or coffee).
 * [aerum.com Website](https://aerum.com/en)
 * [White paper](https://aerum.com/en/white-paper)
 * [Lite paper](https://aerum.com/en/lite-paper)
-* [Fact Book](https://aerum.com/en/one-pager)
+* [Fact Book](https://aerum.com/en/factbook)
+* [Cure53 Audit of Token Contract](https://aerum.com/en/audit-one)
+* [Cure53 Audit of CrowdSale Contract](https://aerum.com/en/audit-two)
 
 ### Our Web wallet and demo page
 * [Aerums Web Wallet](https://wallet.aerum.net/)
