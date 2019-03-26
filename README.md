@@ -7,24 +7,24 @@ Official Golang implementation of the AERUM Technology protocol featuring our cu
 If you need any assistance please do not hesitate to contact one of the AERUM team via our twitter @aerum_official or if you would like more information 
 in person feel free to buy us a beer (or coffee).
 
-Want to know more about Aerum, check out the following resources:
-[aerum.com Website](https://aerum.com/en)
-[White paper](https://aerum.com/en/white-paper)
-[Lite paper](https://aerum.com/en/lite-paper)
-[Fact Book](https://aerum.com/en/one-pager)
+### Want to know more about Aerum, check out the following resources:
+* [aerum.com Website](https://aerum.com/en)
+* [White paper](https://aerum.com/en/white-paper)
+* [Lite paper](https://aerum.com/en/lite-paper)
+* [Fact Book](https://aerum.com/en/one-pager)
 
-Our Web wallet and demo page
-[Aerums Web Wallet](https://wallet.aerum.net/)
-[Aerums Demo Page](https://live.aerum.net/)
+### Our Web wallet and demo page
+* [Aerums Web Wallet](https://wallet.aerum.net/)
+* [Aerums Demo Page](https://live.aerum.net/)
 
-Mainnnet Network Utilities 
-[Mainnet Network Statistics](https://ortus.stats.mainnet.aerum.net)
-[Testnet Network Statistics](https://ortus.stats.testnet.aerum.net)
-[Aerums Mainnet Explorer](https://explore.aerum.net)
+### Mainnnet Network Utilities 
+* [Mainnet Network Statistics](https://ortus.stats.mainnet.aerum.net)
+* [Testnet Network Statistics](https://ortus.stats.testnet.aerum.net)
+* [Aerums Mainnet Explorer](https://explore.aerum.net)
 
-Mainnnet Network Endpoint's
-RPC Gateway to Mainnet: ```https://main-gw-500.aerum.net```
-WSS Gateway to Mainnet: ```wss://main-gw-500.aerum.net/wss```
+### Mainnnet Network Endpoint's
+* RPC Gateway to Mainnet: ```https://main-gw-500.aerum.net```
+* WSS Gateway to Mainnet: ```wss://main-gw-500.aerum.net/wss```
 
 
 ## Pre-requisites
