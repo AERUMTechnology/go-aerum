@@ -1,7 +1,7 @@
 package params
 
 import (
-	"github.com/AERUMTechnology/go-aerum-new/common"
+	"github.com/AERUMTechnology/go-aerum/common"
 	"math/big"
 )
 

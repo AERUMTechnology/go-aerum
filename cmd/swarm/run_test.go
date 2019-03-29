@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum-new Authors
-// This file is part of go-aerum-new.
+// Copyright 2017 The go-aerum Authors
+// This file is part of go-aerum.
 //
-// go-aerum-new is free software: you can redistribute it and/or modify
+// go-aerum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum-new is distributed in the hope that it will be useful,
+// go-aerum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -27,13 +27,13 @@ import (
 	"time"
 
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/AERUMTechnology/go-aerum-new/accounts"
-	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum-new/internal/cmdtest"
-	"github.com/AERUMTechnology/go-aerum-new/node"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/rpc"
-	"github.com/AERUMTechnology/go-aerum-new/swarm"
+	"github.com/AERUMTechnology/go-aerum/accounts"
+	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum/internal/cmdtest"
+	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/rpc"
+	"github.com/AERUMTechnology/go-aerum/swarm"
 )
 
 func init() {

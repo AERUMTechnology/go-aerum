@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/rlp"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/log"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/pss"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/rlp"
+	"github.com/AERUMTechnology/go-aerum/swarm/log"
+	"github.com/AERUMTechnology/go-aerum/swarm/pss"
 )
 
 const (

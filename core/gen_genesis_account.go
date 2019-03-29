@@ -7,9 +7,9 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum-new/common/math"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/common/math"
 )
 
 var _ = (*genesisAccountMarshaling)(nil)

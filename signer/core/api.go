@@ -1,18 +1,18 @@
-// Copyright 2018 The go-aerum-new Authors
-// This file is part of go-aerum-new.
+// Copyright 2018 The go-aerum Authors
+// This file is part of go-aerum.
 //
-// go-aerum-new is free software: you can redistribute it and/or modify
+// go-aerum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum-new is distributed in the hope that it will be useful,
+// go-aerum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -25,15 +25,15 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/AERUMTechnology/go-aerum-new/accounts"
-	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum-new/accounts/usbwallet"
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
-	"github.com/AERUMTechnology/go-aerum-new/internal/ethapi"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/rlp"
+	"github.com/AERUMTechnology/go-aerum/accounts"
+	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum/accounts/usbwallet"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/internal/ethapi"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/rlp"
 )
 
 // ExternalAPI defines the external API through which signing requests are made.
@@ -374,7 +374,7 @@ func (api *SignerAPI) SignTransaction(ctx context.Context, args SendTxArgs, meth
 //
 // The key used to calculate the signature is decrypted with the given password.
 //
-// https://github.com/AERUMTechnology/go-aerum-new/wiki/Management-APIs#personal_sign
+// https://github.com/AERUMTechnology/go-aerum/wiki/Management-APIs#personal_sign
 func (api *SignerAPI) Sign(ctx context.Context, addr common.MixedcaseAddress, data hexutil.Bytes) (hexutil.Bytes, error) {
 	sighash, msg := SignHash(data)
 	// We make the request prior to looking up if we actually have the account, to prevent
@@ -413,7 +413,7 @@ func (api *SignerAPI) Sign(ctx context.Context, addr common.MixedcaseAddress, da
 // Note, the signature must conform to the secp256k1 curve R, S and V values, where
 // the V value must be be 27 or 28 for legacy reasons.
 //
-// https://github.com/AERUMTechnology/go-aerum-new/wiki/Management-APIs#personal_ecRecover
+// https://github.com/AERUMTechnology/go-aerum/wiki/Management-APIs#personal_ecRecover
 func (api *SignerAPI) EcRecover(ctx context.Context, data, sig hexutil.Bytes) (common.Address, error) {
 	if len(sig) != 65 {
 		return common.Address{}, fmt.Errorf("signature must be 65 bytes long")

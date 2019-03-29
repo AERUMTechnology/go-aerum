@@ -5,8 +5,8 @@ import (
 	uurl "net/url"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/metrics"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/metrics"
 	"github.com/influxdata/influxdb/client"
 )
 

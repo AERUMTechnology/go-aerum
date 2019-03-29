@@ -1,5 +1,5 @@
 language: go
-go_import_path: github.com/AERUMTechnology/go-aerum-new
+go_import_path: github.com/AERUMTechnology/go-aerum
 sudo: false
 matrix:
   include:

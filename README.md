@@ -118,7 +118,7 @@ aerum --datadir=/your/datadir\
 
 # In Depth Documentation
 
-The go-aerum-new project comes with several wrappers/executables found in the `cmd` directory.
+The go-aerum project comes with several wrappers/executables found in the `cmd` directory.
 
 | Command    | Description |
 |:----------:|-------------|
@@ -191,7 +191,7 @@ separate the two networks and will not make any accounts available between them.
 
 ### Full node on the Rinkeby test network
 
-The above test network is a cross client one based on the ethash proof-of-work consensus algorithm. As such, it has certain extra overhead and is more susceptible to reorganization attacks due to the network's low difficulty / security. Go Ethereum also supports connecting to a proof-of-authority based test network called [*Rinkeby*](https://www.rinkeby.io) (operated by members of the community). This network is lighter, more secure, but is only supported by go-aerum-new.
+The above test network is a cross client one based on the ethash proof-of-work consensus algorithm. As such, it has certain extra overhead and is more susceptible to reorganization attacks due to the network's low difficulty / security. Go Ethereum also supports connecting to a proof-of-authority based test network called [*Rinkeby*](https://www.rinkeby.io) (operated by members of the community). This network is lighter, more secure, but is only supported by go-aerum.
 
 ```
 $ aerum --rinkeby console
@@ -370,7 +370,7 @@ limit blocks converge to (`--targetgaslimit`) and the price transactions are acc
 Thank you for considering to help out with the source code! We welcome contributions from
 anyone on the internet, and are grateful for even the smallest of fixes!
 
-If you'd like to contribute to go-aerum-new, please fork, fix, commit and send a pull request
+If you'd like to contribute to go-aerum, please fork, fix, commit and send a pull request
 for the maintainers to review and merge into the main code base. If you wish to submit more
 complex changes though, please check up with the core devs first on [our gitter channel](https://gitter.im/ethereum/go-ethereum)
 to ensure those changes are in line with the general philosophy of the project and/or get some
@@ -390,11 +390,11 @@ for more details on configuring your environment, managing project dependencies 
 
 ## License
 
-The go-aerum-new library (i.e. all code outside of the `cmd` directory) is licensed under the
+The go-aerum library (i.e. all code outside of the `cmd` directory) is licensed under the
 [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html), also
 included in our repository in the `COPYING.LESSER` file.
 
-The go-aerum-new binaries (i.e. all code inside of the `cmd` directory) is licensed under the
+The go-aerum binaries (i.e. all code inside of the `cmd` directory) is licensed under the
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html), also included
 in our repository in the `COPYING` file.
 >>>>>>> 1.8.13-stable

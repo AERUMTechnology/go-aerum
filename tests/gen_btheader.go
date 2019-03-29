@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum-new/common/math"
-	"github.com/AERUMTechnology/go-aerum-new/core/types"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/common/math"
+	"github.com/AERUMTechnology/go-aerum/core/types"
 )
 
 var _ = (*btHeaderMarshaling)(nil)

@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum-new Authors
-// This file is part of go-aerum-new.
+// Copyright 2017 The go-aerum Authors
+// This file is part of go-aerum.
 //
-// go-aerum-new is free software: you can redistribute it and/or modify
+// go-aerum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum-new is distributed in the hope that it will be useful,
+// go-aerum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -23,10 +23,10 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/AERUMTechnology/go-aerum-new/core/state"
-	"github.com/AERUMTechnology/go-aerum-new/core/vm"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/tests"
+	"github.com/AERUMTechnology/go-aerum/core/state"
+	"github.com/AERUMTechnology/go-aerum/core/vm"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/tests"
 
 	cli "gopkg.in/urfave/cli.v1"
 )
@@ -52,7 +52,7 @@ func stateTestCmd(ctx *cli.Context) error {
 	if len(ctx.Args().First()) == 0 {
 		return errors.New("path-to-test argument required")
 	}
-	// Configure the go-aerum-new logger
+	// Configure the go-aerum logger
 	glogger := log.NewGlogHandler(log.StreamHandler(os.Stderr, log.TerminalFormat(false)))
 	glogger.Verbosity(log.Lvl(ctx.GlobalInt(VerbosityFlag.Name)))
 	log.Root().SetHandler(glogger)

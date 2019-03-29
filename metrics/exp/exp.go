@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/AERUMTechnology/go-aerum-new/metrics"
+	"github.com/AERUMTechnology/go-aerum/metrics"
 )
 
 type exp struct {

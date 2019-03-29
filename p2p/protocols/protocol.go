@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2017 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 
 /*
 Package protocols is an extension to p2p. It offers a user friendly simple way to define
@@ -38,12 +38,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/metrics"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/rlp"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/spancontext"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/tracing"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/metrics"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/rlp"
+	"github.com/AERUMTechnology/go-aerum/swarm/spancontext"
+	"github.com/AERUMTechnology/go-aerum/swarm/tracing"
 	opentracing "github.com/opentracing/opentracing-go"
 )
 

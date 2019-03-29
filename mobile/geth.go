@@ -1,18 +1,18 @@
-// Copyright 2016 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2016 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 
 // Contains all the wrappers from the node package to support client side node
 // management on mobile platforms.
@@ -24,23 +24,23 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/AERUMTechnology/go-aerum-new/core"
-	"github.com/AERUMTechnology/go-aerum-new/eth"
-	"github.com/AERUMTechnology/go-aerum-new/eth/downloader"
-	"github.com/AERUMTechnology/go-aerum-new/ethclient"
-	"github.com/AERUMTechnology/go-aerum-new/ethstats"
-	"github.com/AERUMTechnology/go-aerum-new/internal/debug"
-	"github.com/AERUMTechnology/go-aerum-new/les"
-	"github.com/AERUMTechnology/go-aerum-new/node"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/nat"
-	"github.com/AERUMTechnology/go-aerum-new/params"
-	whisper "github.com/AERUMTechnology/go-aerum-new/whisper/whisperv6"
+	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/eth"
+	"github.com/AERUMTechnology/go-aerum/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum/ethclient"
+	"github.com/AERUMTechnology/go-aerum/ethstats"
+	"github.com/AERUMTechnology/go-aerum/internal/debug"
+	"github.com/AERUMTechnology/go-aerum/les"
+	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/p2p/nat"
+	"github.com/AERUMTechnology/go-aerum/params"
+	whisper "github.com/AERUMTechnology/go-aerum/whisper/whisperv6"
 )
 
 // NodeConfig represents the collection of configuration values to fine tune the Geth
 // node embedded into a mobile process. The available values are a subset of the
-// entire API provided by go-aerum-new to reduce the maintenance surface and dev
+// entire API provided by go-aerum to reduce the maintenance surface and dev
 // complexity.
 type NodeConfig struct {
 	// Bootstrap nodes used to establish connectivity with the rest of the network.
