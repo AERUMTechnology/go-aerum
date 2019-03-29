@@ -9,17 +9,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/node"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/simulations"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/simulations/adapters"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/network"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/pss"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/state"
-	whisper "github.com/AERUMTechnology/go-aerum-new/whisper/whisperv5"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum/p2p/simulations"
+	"github.com/AERUMTechnology/go-aerum/p2p/simulations/adapters"
+	"github.com/AERUMTechnology/go-aerum/swarm/network"
+	"github.com/AERUMTechnology/go-aerum/swarm/pss"
+	"github.com/AERUMTechnology/go-aerum/swarm/state"
+	whisper "github.com/AERUMTechnology/go-aerum/whisper/whisperv5"
 )
 
 var (

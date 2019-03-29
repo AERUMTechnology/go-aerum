@@ -5862,7 +5862,7 @@ module.exports = Shh;
  * @author Alex Beregszaszi <alex@rtfs.hu>
  * @date 2016
  *
- * Reference: https://github.com/AERUMTechnology/go-aerum-new/blob/swarm/internal/web3ext/web3ext.go#L33
+ * Reference: https://github.com/AERUMTechnology/go-aerum/blob/swarm/internal/web3ext/web3ext.go#L33
  */
 
 "use strict";

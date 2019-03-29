@@ -1,18 +1,18 @@
-// Copyright 2016 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2016 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package les implements the Light AERUMTechnology Subprotocol.
 package les
@@ -27,13 +27,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/common/mclock"
-	"github.com/AERUMTechnology/go-aerum-new/ethdb"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/discv5"
-	"github.com/AERUMTechnology/go-aerum-new/rlp"
+	"github.com/AERUMTechnology/go-aerum/common/mclock"
+	"github.com/AERUMTechnology/go-aerum/ethdb"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum/p2p/discv5"
+	"github.com/AERUMTechnology/go-aerum/rlp"
 )
 
 const (

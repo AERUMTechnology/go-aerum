@@ -2,12 +2,12 @@ Pod::Spec.new do |spec|
   spec.name         = 'Geth'
   spec.version      = '{{.Version}}'
   spec.license      = { :type => 'GNU Lesser General Public License, Version 3.0' }
-  spec.homepage     = 'https://github.com/AERUMTechnology/go-aerum-new'
+  spec.homepage     = 'https://github.com/AERUMTechnology/go-aerum'
   spec.authors      = { {{range .Contributors}}
 		'{{.Name}}' => '{{.Email}}',{{end}}
 	}
   spec.summary      = 'iOS AERUMTechnology Client'
-  spec.source       = { :git => 'https://github.com/AERUMTechnology/go-aerum-new.git', :commit => '{{.Commit}}' }
+  spec.source       = { :git => 'https://github.com/AERUMTechnology/go-aerum.git', :commit => '{{.Commit}}' }
 
 	spec.platform = :ios
   spec.ios.deployment_target  = '9.0'

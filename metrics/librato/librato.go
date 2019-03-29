@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/metrics"
+	"github.com/AERUMTechnology/go-aerum/metrics"
 )
 
 // a regexp for extracting the unit from time.Duration.String

@@ -5,7 +5,7 @@ package whisperv5
 import (
 	"encoding/json"
 
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
 )
 
 var _ = (*messageOverride)(nil)

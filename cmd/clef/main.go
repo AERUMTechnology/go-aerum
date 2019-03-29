@@ -1,18 +1,18 @@
-// Copyright 2018 The go-aerum-new Authors
-// This file is part of go-aerum-new.
+// Copyright 2018 The go-aerum Authors
+// This file is part of go-aerum.
 //
-// go-aerum-new is free software: you can redistribute it and/or modify
+// go-aerum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum-new is distributed in the hope that it will be useful,
+// go-aerum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
 
 // signer is a utility that can be used so sign transactions and
 // arbitrary data.
@@ -35,15 +35,15 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/node"
-	"github.com/AERUMTechnology/go-aerum-new/rpc"
-	"github.com/AERUMTechnology/go-aerum-new/signer/core"
-	"github.com/AERUMTechnology/go-aerum-new/signer/rules"
-	"github.com/AERUMTechnology/go-aerum-new/signer/storage"
+	"github.com/AERUMTechnology/go-aerum/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum/rpc"
+	"github.com/AERUMTechnology/go-aerum/signer/core"
+	"github.com/AERUMTechnology/go-aerum/signer/rules"
+	"github.com/AERUMTechnology/go-aerum/signer/storage"
 	"gopkg.in/urfave/cli.v1"
 )
 

@@ -1,18 +1,18 @@
-// Copyright 2016 The go-aerum-new Authors
-// This file is part of go-aerum-new.
+// Copyright 2016 The go-aerum Authors
+// This file is part of go-aerum.
 //
-// go-aerum-new is free software: you can redistribute it and/or modify
+// go-aerum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum-new is distributed in the hope that it will be useful,
+// go-aerum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -28,22 +28,22 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/AERUMTechnology/go-aerum-new/accounts"
-	"github.com/AERUMTechnology/go-aerum-new/accounts/keystore"
-	"github.com/AERUMTechnology/go-aerum-new/cmd/utils"
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/console"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
-	"github.com/AERUMTechnology/go-aerum-new/internal/debug"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/node"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum-new/swarm"
-	bzzapi "github.com/AERUMTechnology/go-aerum-new/swarm/api"
-	swarmmetrics "github.com/AERUMTechnology/go-aerum-new/swarm/metrics"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/tracing"
-	sv "github.com/AERUMTechnology/go-aerum-new/swarm/version"
+	"github.com/AERUMTechnology/go-aerum/accounts"
+	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/console"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/internal/debug"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum/swarm"
+	bzzapi "github.com/AERUMTechnology/go-aerum/swarm/api"
+	swarmmetrics "github.com/AERUMTechnology/go-aerum/swarm/metrics"
+	"github.com/AERUMTechnology/go-aerum/swarm/tracing"
+	sv "github.com/AERUMTechnology/go-aerum/swarm/version"
 
 	"gopkg.in/urfave/cli.v1"
 )
@@ -229,7 +229,7 @@ var app = utils.NewApp(gitCommit, "AERUMTechnology Swarm")
 func init() {
 	app.Action = bzzd
 	app.HideVersion = true // we have a command to print the version
-	app.Copyright = "Copyright 2013-2016 The go-aerum-new Authors"
+	app.Copyright = "Copyright 2013-2016 The go-aerum Authors"
 	app.Commands = []cli.Command{
 		{
 			Action:             version,

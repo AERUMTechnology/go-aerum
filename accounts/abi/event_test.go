@@ -1,18 +1,18 @@
-// Copyright 2016 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2016 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 
 package abi
 
@@ -25,8 +25,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/crypto"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -323,7 +323,7 @@ func unpackTestEventData(dest interface{}, hexData string, jsonEvent []byte, ass
 
 /*
 Taken from
-https://github.com/AERUMTechnology/go-aerum-new/pull/15568
+https://github.com/AERUMTechnology/go-aerum/pull/15568
 */
 
 type testResult struct {

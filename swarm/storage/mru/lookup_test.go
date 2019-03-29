@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
 )
 
 func getTestUpdateLookup() *UpdateLookup {

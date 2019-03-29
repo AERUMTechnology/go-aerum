@@ -1,18 +1,18 @@
-// Copyright 2015 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2015 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 
 package eth
 
@@ -26,20 +26,20 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/consensus"
-	"github.com/AERUMTechnology/go-aerum-new/consensus/misc"
-	"github.com/AERUMTechnology/go-aerum-new/core"
-	"github.com/AERUMTechnology/go-aerum-new/core/types"
-	"github.com/AERUMTechnology/go-aerum-new/eth/downloader"
-	"github.com/AERUMTechnology/go-aerum-new/eth/fetcher"
-	"github.com/AERUMTechnology/go-aerum-new/ethdb"
-	"github.com/AERUMTechnology/go-aerum-new/event"
-	"github.com/AERUMTechnology/go-aerum-new/log"
-	"github.com/AERUMTechnology/go-aerum-new/p2p"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum-new/params"
-	"github.com/AERUMTechnology/go-aerum-new/rlp"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/consensus"
+	"github.com/AERUMTechnology/go-aerum/consensus/misc"
+	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/core/types"
+	"github.com/AERUMTechnology/go-aerum/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum/eth/fetcher"
+	"github.com/AERUMTechnology/go-aerum/ethdb"
+	"github.com/AERUMTechnology/go-aerum/event"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum/params"
+	"github.com/AERUMTechnology/go-aerum/rlp"
 )
 
 const (

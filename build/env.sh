@@ -11,10 +11,10 @@ fi
 workspace="$PWD/build/_workspace"
 root="$PWD"
 ethdir="$workspace/src/github.com/AERUMTechnology"
-if [ ! -L "$ethdir/go-aerum-new" ]; then
+if [ ! -L "$ethdir/go-aerum" ]; then
     mkdir -p "$ethdir"
     cd "$ethdir"
-    ln -s ../../../../../. go-aerum-new
+    ln -s ../../../../../. go-aerum
     cd "$root"
 fi
 
@@ -23,8 +23,8 @@ GOPATH="$workspace"
 export GOPATH
 
 # Run the command inside the workspace.
-cd "$ethdir/go-aerum-new"
-PWD="$ethdir/go-aerum-new"
+cd "$ethdir/go-aerum"
+PWD="$ethdir/go-aerum"
 
 # Launch the arguments with the configured environment.
 exec "$@"

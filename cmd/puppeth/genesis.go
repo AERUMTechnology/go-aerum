@@ -1,18 +1,18 @@
-// Copyright 2017 The go-aerum-new Authors
-// This file is part of go-aerum-new.
+// Copyright 2017 The go-aerum Authors
+// This file is part of go-aerum.
 //
-// go-aerum-new is free software: you can redistribute it and/or modify
+// go-aerum is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// go-aerum-new is distributed in the hope that it will be useful,
+// go-aerum is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with go-aerum-new. If not, see <http://www.gnu.org/licenses/>.
+// along with go-aerum. If not, see <http://www.gnu.org/licenses/>.
 
 package main
 
@@ -21,11 +21,11 @@ import (
 	"errors"
 	"math"
 
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/common/hexutil"
-	"github.com/AERUMTechnology/go-aerum-new/consensus/ethash"
-	"github.com/AERUMTechnology/go-aerum-new/core"
-	"github.com/AERUMTechnology/go-aerum-new/params"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/params"
 )
 
 // cppAERUMTechnologyGenesisSpec represents the genesis specification format used by the
@@ -85,10 +85,10 @@ type cppAERUMTechnologyGenesisSpecLinearPricing struct {
 	Word uint64 `json:"word"`
 }
 
-// newCppAERUMTechnologyGenesisSpec converts a go-aerum-new genesis block into a Parity specific
+// newCppAERUMTechnologyGenesisSpec converts a go-aerum genesis block into a Parity specific
 // chain specification format.
 func newCppAERUMTechnologyGenesisSpec(network string, genesis *core.Genesis) (*cppAERUMTechnologyGenesisSpec, error) {
-	// Only ethash is currently supported between go-aerum-new and cpp-AERUMTechnology
+	// Only ethash is currently supported between go-aerum and cpp-AERUMTechnology
 	if genesis.Config.Ethash == nil {
 		return nil, errors.New("unsupported consensus engine")
 	}
@@ -256,10 +256,10 @@ type parityChainSpecAltBnPairingPricing struct {
 	Pair uint64 `json:"pair"`
 }
 
-// newParityChainSpec converts a go-aerum-new genesis block into a Parity specific
+// newParityChainSpec converts a go-aerum genesis block into a Parity specific
 // chain specification format.
 func newParityChainSpec(network string, genesis *core.Genesis, bootnodes []string) (*parityChainSpec, error) {
-	// Only ethash is currently supported between go-aerum-new and Parity
+	// Only ethash is currently supported between go-aerum and Parity
 	if genesis.Config.Ethash == nil {
 		return nil, errors.New("unsupported consensus engine")
 	}
@@ -355,10 +355,10 @@ type pyAERUMTechnologyGenesisSpec struct {
 	ParentHash common.Hash       `json:"parentHash"`
 }
 
-// newPyAERUMTechnologyGenesisSpec converts a go-aerum-new genesis block into a Parity specific
+// newPyAERUMTechnologyGenesisSpec converts a go-aerum genesis block into a Parity specific
 // chain specification format.
 func newPyAERUMTechnologyGenesisSpec(network string, genesis *core.Genesis) (*pyAERUMTechnologyGenesisSpec, error) {
-	// Only ethash is currently supported between go-aerum-new and pyAERUMTechnology
+	// Only ethash is currently supported between go-aerum and pyAERUMTechnology
 	if genesis.Config.Ethash == nil {
 		return nil, errors.New("unsupported consensus engine")
 	}

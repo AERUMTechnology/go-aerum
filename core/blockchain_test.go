@@ -1,18 +1,18 @@
-// Copyright 2014 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2014 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 
 package core
 
@@ -24,16 +24,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/common"
-	"github.com/AERUMTechnology/go-aerum-new/consensus"
-	"github.com/AERUMTechnology/go-aerum-new/consensus/ethash"
-	"github.com/AERUMTechnology/go-aerum-new/core/rawdb"
-	"github.com/AERUMTechnology/go-aerum-new/core/state"
-	"github.com/AERUMTechnology/go-aerum-new/core/types"
-	"github.com/AERUMTechnology/go-aerum-new/core/vm"
-	"github.com/AERUMTechnology/go-aerum-new/crypto"
-	"github.com/AERUMTechnology/go-aerum-new/ethdb"
-	"github.com/AERUMTechnology/go-aerum-new/params"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/consensus"
+	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum/core/rawdb"
+	"github.com/AERUMTechnology/go-aerum/core/state"
+	"github.com/AERUMTechnology/go-aerum/core/types"
+	"github.com/AERUMTechnology/go-aerum/core/vm"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/ethdb"
+	"github.com/AERUMTechnology/go-aerum/params"
 )
 
 // So we can deterministically seed different blockchains
@@ -1230,7 +1230,7 @@ func TestEIP161AccountRemoval(t *testing.T) {
 // tests that under weird reorg conditions the blockchain and its internal header-
 // chain return the same latest block/header.
 //
-// https://github.com/AERUMTechnology/go-aerum-new/pull/15941
+// https://github.com/AERUMTechnology/go-aerum/pull/15941
 func TestBlockchainHeaderchainReorgConsistency(t *testing.T) {
 	// Generate a canonical chain to act as the main dataset
 	engine := ethash.NewFaker()

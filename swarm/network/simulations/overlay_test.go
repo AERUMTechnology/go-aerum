@@ -1,18 +1,18 @@
-// Copyright 2018 The go-aerum-new Authors
-// This file is part of the go-aerum-new library.
+// Copyright 2018 The go-aerum Authors
+// This file is part of the go-aerum library.
 //
-// The go-aerum-new library is free software: you can redistribute it and/or modify
+// The go-aerum library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-aerum-new library is distributed in the hope that it will be useful,
+// The go-aerum library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-aerum-new library. If not, see <http://www.gnu.org/licenses/>.
+// along with the go-aerum library. If not, see <http://www.gnu.org/licenses/>.
 package main
 
 import (
@@ -26,9 +26,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AERUMTechnology/go-aerum-new/p2p/discover"
-	"github.com/AERUMTechnology/go-aerum-new/p2p/simulations"
-	"github.com/AERUMTechnology/go-aerum-new/swarm/log"
+	"github.com/AERUMTechnology/go-aerum/p2p/discover"
+	"github.com/AERUMTechnology/go-aerum/p2p/simulations"
+	"github.com/AERUMTechnology/go-aerum/swarm/log"
 )
 
 var (
@@ -43,7 +43,7 @@ var (
 //It also provides a documentation on the steps needed by frontends
 //to use the simulations
 func TestOverlaySim(t *testing.T) {
-	t.Skip("Test is flaky, see: https://github.com/ethersphere/go-aerum-new/issues/592")
+	t.Skip("Test is flaky, see: https://github.com/ethersphere/go-aerum/issues/592")
 	//start the simulation
 	log.Info("Start simulation backend")
 	//get the simulation networ; needed to subscribe for up events
