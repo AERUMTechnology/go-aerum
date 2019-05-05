@@ -528,17 +528,20 @@ func (a *Atmos) verifySeal(chain consensus.ChainReader, header *types.Header, pa
 	// }
 
 	// NOTE: Added by Aerum
-	for _, recent := range snap.Recents {
+	for seen, recent := range snap.Recents {
 		if recent == signer {
-			// Ensure that the block's timestamp isn't too close to it's parent if it's recent
-			parent := getParentHeader(chain, header, parents)
-			if parent == nil {
-				return consensus.ErrUnknownAncestor
-			}
-			if parent.Time.Uint64()+recentsTimeout > header.Time.Uint64() {
-				// TODO: Remove later
-				log.Error("This should not happen! Delay between recent blocks is too small")
-				return ErrInvalidTimestamp
+			// Signer is among recents, only fail if the current block doesn't shift it out
+			if limit := uint64(len(snap.Signers)/2 + 1); seen > number-limit {
+				// Ensure that the block's timestamp isn't too close to it's parent if it's recent
+				parent := getParentHeader(chain, header, parents)
+				if parent == nil {
+					return consensus.ErrUnknownAncestor
+				}
+				if parent.Time.Uint64()+recentsTimeout > header.Time.Uint64() {
+					// TODO: Remove later
+					log.Error("This should not happen! Delay between recent blocks is too small")
+					return ErrInvalidTimestamp
+				}
 			}
 		}
 	}
