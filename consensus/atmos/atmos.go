@@ -51,6 +51,8 @@ const (
 	inmemorySignatures = 4096 // Number of recent block signatures to keep in memory
 
 	wiggleTime = 500 * time.Millisecond // Random delay (per signer) to allow concurrent signers
+
+	recentsTimeout = 10 // Timeout between signing blocks in case signer is recent
 )
 
 // Atmos proof-of-authority protocol constants.
@@ -345,13 +347,8 @@ func (a *Atmos) verifyCascadingFields(chain consensus.ChainReader, header *types
 		return nil
 	}
 	// Ensure that the block's timestamp isn't too close to it's parent
-	var parent *types.Header
-	if len(parents) > 0 {
-		parent = parents[len(parents)-1]
-	} else {
-		parent = chain.GetHeader(header.ParentHash, number-1)
-	}
-	if parent == nil || parent.Number.Uint64() != number-1 || parent.Hash() != header.ParentHash {
+	parent := getParentHeader(chain, header, parents)
+	if parent == nil {
 		return consensus.ErrUnknownAncestor
 	}
 	if parent.Time.Uint64()+a.config.Period > header.Time.Uint64() {
@@ -529,6 +526,22 @@ func (a *Atmos) verifySeal(chain consensus.ChainReader, header *types.Header, pa
 	// 		}
 	// 	}
 	// }
+
+	// NOTE: Added by Aerum
+	for _, recent := range snap.Recents {
+		if recent == signer {
+			// Ensure that the block's timestamp isn't too close to it's parent if it's recent
+			parent := getParentHeader(chain, header, parents)
+			if parent == nil {
+				return consensus.ErrUnknownAncestor
+			}
+			if parent.Time.Uint64()+recentsTimeout > header.Time.Uint64() {
+				// TODO: Remove later
+				log.Error("This should not happen! Delay between recent blocks is too small")
+				return ErrInvalidTimestamp
+			}
+		}
+	}
 
 	// Ensure that the difficulty corresponds to the turn-ness of the signer
 	inturn := snap.inturn(header.Number.Uint64(), signer)
@@ -770,4 +783,21 @@ func accumulateRewards(a *Atmos, state *state.StateDB, header *types.Header) {
 	}
 	// Just add block rewards to signer
 	state.AddBalance(signer, BlockReward)
+}
+
+// Added by Aerum
+func getParentHeader(chain consensus.ChainReader, header *types.Header, parents []*types.Header) *types.Header {
+	number := header.Number.Uint64()
+
+	var parent *types.Header
+	if len(parents) > 0 {
+		parent = parents[len(parents)-1]
+	} else {
+		parent = chain.GetHeader(header.ParentHash, number-1)
+	}
+	if parent == nil || parent.Number.Uint64() != number-1 || parent.Hash() != header.ParentHash {
+		return nil
+	}
+
+	return parent
 }
