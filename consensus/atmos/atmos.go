@@ -52,7 +52,7 @@ const (
 
 	wiggleTime = 500 * time.Millisecond // Random delay (per signer) to allow concurrent signers
 
-	recentsTimeout = 10 // Timeout between signing blocks in case signer is recent
+	recentsTimeout = 10 * time.Second // Timeout between signing blocks in case signer is recent
 )
 
 // Atmos proof-of-authority protocol constants.
@@ -432,7 +432,6 @@ func (a *Atmos) snapshot(chain consensus.ChainReader, number uint64, hash common
 				return nil, errInvalidNumberOfSigners
 			}
 			log.Trace("Loaded snapshot from governance contract", "number", number, "hash", hash)
-			// TODO(Aerum): Do we need to modify signatures here?
 			snap = newSnapshot(a.config, a.signatures, number, hash, signers)
 			break
 		}
@@ -537,9 +536,8 @@ func (a *Atmos) verifySeal(chain consensus.ChainReader, header *types.Header, pa
 				if parent == nil {
 					return consensus.ErrUnknownAncestor
 				}
-				if parent.Time.Uint64()+recentsTimeout > header.Time.Uint64() {
-					// TODO: Remove later
-					log.Error("This should not happen! Delay between recent blocks is too small")
+				if parent.Time.Uint64()+uint64(recentsTimeout.Seconds()) > header.Time.Uint64() {
+					log.Error("Invalid block time. Recent signer is trying to sign block too fast", "parent", parent.Time.Uint64(), "time", header.Time.Uint64(), "number", header.Number)
 					return ErrInvalidTimestamp
 				}
 			}
@@ -677,11 +675,30 @@ func (a *Atmos) Seal(chain consensus.ChainReader, block *types.Block, stop <-cha
 	}
 	log.Trace("Waiting for slot to sign and propagate", "delay", common.PrettyDuration(delay))
 
+	// NOTE: Added by Aerum
+	for seen, recent := range snap.Recents {
+		if recent == signer {
+			// Signer is among recents, only wait if the current block doesn't shift it out
+			if limit := uint64(len(snap.Signers)/2 + 1); number < limit || seen > number-limit {
+
+				// It's not our turn explicitly to sign, delay it a bit
+				wiggle := time.Duration(len(snap.Signers)/2+1) * wiggleTime
+				delay = recentsTimeout + time.Duration(rand.Int63n(int64(wiggle))) - (time.Duration(a.config.Period) * time.Second)
+
+				// Update header time to delayed one
+				header.Time = new(big.Int).Add(header.Time, new(big.Int).SetUint64(uint64(delay.Seconds())))
+
+				log.Trace("Waiting for recent signer block signing", "delay", common.PrettyDuration(delay))
+			}
+		}
+	}
+
 	select {
 	case <-stop:
 		return nil, nil
 	case <-time.After(delay):
 	}
+
 	// Sign all the things!
 	sighash, err := signFn(accounts.Account{Address: signer}, sigHash(header).Bytes())
 	if err != nil {
