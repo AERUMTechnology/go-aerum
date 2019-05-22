@@ -52,7 +52,7 @@ const (
 
 	wiggleTime = 500 * time.Millisecond // Random delay (per signer) to allow concurrent signers
 
-	recentsTimeout = 10 * time.Second // Timeout between signing blocks in case signer is recent
+	recentsTimeout = 30 * time.Second // Timeout between signing blocks in case signer is recent
 )
 
 // Atmos proof-of-authority protocol constants.
@@ -537,7 +537,7 @@ func (a *Atmos) verifySeal(chain consensus.ChainReader, header *types.Header, pa
 					return consensus.ErrUnknownAncestor
 				}
 				if parent.Time.Uint64()+uint64(recentsTimeout.Seconds()) > header.Time.Uint64() {
-					log.Error("Invalid block time. Recent signer is trying to sign block too fast", "parent", parent.Time.Uint64(), "time", header.Time.Uint64(), "number", header.Number)
+					log.Error("Invalid block time. Recent signer is trying to sign block too fast", "parent time", parent.Time.Uint64(), "block time", header.Time.Uint64(), "block number", header.Number)
 					return ErrInvalidTimestamp
 				}
 			}
