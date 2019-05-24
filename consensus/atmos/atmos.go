@@ -51,6 +51,8 @@ const (
 	inmemorySignatures = 4096 // Number of recent block signatures to keep in memory
 
 	wiggleTime = 500 * time.Millisecond // Random delay (per signer) to allow concurrent signers
+
+	recentsTimeout = 30 * time.Second // Timeout between signing blocks in case signer is recent
 )
 
 // Atmos proof-of-authority protocol constants.
@@ -345,13 +347,8 @@ func (a *Atmos) verifyCascadingFields(chain consensus.ChainReader, header *types
 		return nil
 	}
 	// Ensure that the block's timestamp isn't too close to it's parent
-	var parent *types.Header
-	if len(parents) > 0 {
-		parent = parents[len(parents)-1]
-	} else {
-		parent = chain.GetHeader(header.ParentHash, number-1)
-	}
-	if parent == nil || parent.Number.Uint64() != number-1 || parent.Hash() != header.ParentHash {
+	parent := getParentHeader(chain, header, parents)
+	if parent == nil {
 		return consensus.ErrUnknownAncestor
 	}
 	if parent.Time.Uint64()+a.config.Period > header.Time.Uint64() {
@@ -435,7 +432,6 @@ func (a *Atmos) snapshot(chain consensus.ChainReader, number uint64, hash common
 				return nil, errInvalidNumberOfSigners
 			}
 			log.Trace("Loaded snapshot from governance contract", "number", number, "hash", hash)
-			// TODO(Aerum): Do we need to modify signatures here?
 			snap = newSnapshot(a.config, a.signatures, number, hash, signers)
 			break
 		}
@@ -519,14 +515,35 @@ func (a *Atmos) verifySeal(chain consensus.ChainReader, header *types.Header, pa
 	if _, ok := snap.Signers[signer]; !ok {
 		return errUnauthorized
 	}
+
+	// NOTE: Removed by Aerum
+	// for seen, recent := range snap.Recents {
+	// 	if recent == signer {
+	// 		// Signer is among recents, only fail if the current block doesn't shift it out
+	// 		if limit := uint64(len(snap.Signers)/2 + 1); seen > number-limit {
+	// 			return errUnauthorized
+	// 		}
+	// 	}
+	// }
+
+	// NOTE: Added by Aerum
 	for seen, recent := range snap.Recents {
 		if recent == signer {
 			// Signer is among recents, only fail if the current block doesn't shift it out
 			if limit := uint64(len(snap.Signers)/2 + 1); seen > number-limit {
-				return errUnauthorized
+				// Ensure that the block's timestamp isn't too close to it's parent if it's recent
+				parent := getParentHeader(chain, header, parents)
+				if parent == nil {
+					return consensus.ErrUnknownAncestor
+				}
+				if parent.Time.Uint64()+uint64(recentsTimeout.Seconds()) > header.Time.Uint64() {
+					log.Error("Invalid block time. Recent signer is trying to sign block too fast", "parent time", parent.Time.Uint64(), "block time", header.Time.Uint64(), "block number", header.Number)
+					return ErrInvalidTimestamp
+				}
 			}
 		}
 	}
+
 	// Ensure that the difficulty corresponds to the turn-ness of the signer
 	inturn := snap.inturn(header.Number.Uint64(), signer)
 	if inturn && header.Difficulty.Cmp(diffInTurn) != 0 {
@@ -633,17 +650,20 @@ func (a *Atmos) Seal(chain consensus.ChainReader, block *types.Block, stop <-cha
 	if _, authorized := snap.Signers[signer]; !authorized {
 		return nil, errUnauthorized
 	}
+
+	// NOTE: Removed by Aerum
 	// If we're amongst the recent signers, wait for the next block
-	for seen, recent := range snap.Recents {
-		if recent == signer {
-			// Signer is among recents, only wait if the current block doesn't shift it out
-			if limit := uint64(len(snap.Signers)/2 + 1); number < limit || seen > number-limit {
-				log.Info("Signed recently, must wait for others")
-				<-stop
-				return nil, nil
-			}
-		}
-	}
+	// for seen, recent := range snap.Recents {
+	// 	if recent == signer {
+	// 		// Signer is among recents, only wait if the current block doesn't shift it out
+	// 		if limit := uint64(len(snap.Signers)/2 + 1); number < limit || seen > number-limit {
+	// 			log.Info("Signed recently, must wait for others")
+	// 			<-stop
+	// 			return nil, nil
+	// 		}
+	// 	}
+	// }
+
 	// Sweet, the protocol permits us to sign the block, wait for our time
 	delay := time.Unix(header.Time.Int64(), 0).Sub(time.Now()) // nolint: gosimple
 	if header.Difficulty.Cmp(diffNoTurn) == 0 {
@@ -655,11 +675,30 @@ func (a *Atmos) Seal(chain consensus.ChainReader, block *types.Block, stop <-cha
 	}
 	log.Trace("Waiting for slot to sign and propagate", "delay", common.PrettyDuration(delay))
 
+	// NOTE: Added by Aerum
+	for seen, recent := range snap.Recents {
+		if recent == signer {
+			// Signer is among recents, only wait if the current block doesn't shift it out
+			if limit := uint64(len(snap.Signers)/2 + 1); number < limit || seen > number-limit {
+
+				// It's not our turn explicitly to sign, delay it a bit
+				wiggle := time.Duration(len(snap.Signers)/2+1) * wiggleTime
+				delay = recentsTimeout + time.Duration(rand.Int63n(int64(wiggle))) - (time.Duration(a.config.Period) * time.Second)
+
+				// Update header time to delayed one
+				header.Time = new(big.Int).Add(header.Time, new(big.Int).SetUint64(uint64(delay.Seconds())))
+
+				log.Trace("Waiting for recent signer block signing", "delay", common.PrettyDuration(delay))
+			}
+		}
+	}
+
 	select {
 	case <-stop:
 		return nil, nil
 	case <-time.After(delay):
 	}
+
 	// Sign all the things!
 	sighash, err := signFn(accounts.Account{Address: signer}, sigHash(header).Bytes())
 	if err != nil {
@@ -764,4 +803,21 @@ func accumulateRewards(a *Atmos, state *state.StateDB, header *types.Header) {
 	}
 	// Just add block rewards to signer
 	state.AddBalance(signer, BlockReward)
+}
+
+// Added by Aerum
+func getParentHeader(chain consensus.ChainReader, header *types.Header, parents []*types.Header) *types.Header {
+	number := header.Number.Uint64()
+
+	var parent *types.Header
+	if len(parents) > 0 {
+		parent = parents[len(parents)-1]
+	} else {
+		parent = chain.GetHeader(header.ParentHash, number-1)
+	}
+	if parent == nil || parent.Number.Uint64() != number-1 || parent.Hash() != header.ParentHash {
+		return nil
+	}
+
+	return parent
 }
