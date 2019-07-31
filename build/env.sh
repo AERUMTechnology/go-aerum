@@ -14,7 +14,7 @@ ethdir="$workspace/src/github.com/AERUMTechnology"
 if [ ! -L "$ethdir/go-aerum" ]; then
     mkdir -p "$ethdir"
     cd "$ethdir"
-    ln -s ../../../../../. go-ethereum
+    ln -s ../../../../../. go-aerum
     cd "$root"
 fi
 
