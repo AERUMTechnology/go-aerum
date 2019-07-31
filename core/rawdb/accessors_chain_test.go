@@ -23,10 +23,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/core/types"
+	"github.com/AERUMTechnology/go-aerum/params"
+	"github.com/AERUMTechnology/go-aerum/rlp"
 	"golang.org/x/crypto/sha3"
 )
 

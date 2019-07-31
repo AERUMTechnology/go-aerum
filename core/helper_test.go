@@ -19,10 +19,10 @@ package core
 import (
 	"container/list"
 
-	"github.com/ethereum/go-ethereum/core/rawdb"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/event"
+	"github.com/AERUMTechnology/go-aerum/core/rawdb"
+	"github.com/AERUMTechnology/go-aerum/core/types"
+	"github.com/AERUMTechnology/go-aerum/ethdb"
+	"github.com/AERUMTechnology/go-aerum/event"
 )
 
 // Implement our EthTest Manager

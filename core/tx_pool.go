@@ -25,14 +25,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/prque"
-	"github.com/ethereum/go-ethereum/core/state"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/prque"
+	"github.com/AERUMTechnology/go-aerum/core/state"
+	"github.com/AERUMTechnology/go-aerum/core/types"
+	"github.com/AERUMTechnology/go-aerum/event"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/metrics"
+	"github.com/AERUMTechnology/go-aerum/params"
 )
 
 const (
@@ -137,6 +137,7 @@ type TxPoolConfig struct {
 	PriceBump  uint64 // Minimum price bump percentage to replace an already existing transaction (nonce)
 
 	AccountSlots uint64 // Number of executable transaction slots guaranteed per account
+	ReleaseLimit uint64 // Aerum Emergency pending pool release limit
 	GlobalSlots  uint64 // Maximum number of executable transaction slots for all accounts
 	AccountQueue uint64 // Maximum number of non-executable transaction slots permitted per account
 	GlobalQueue  uint64 // Maximum number of non-executable transaction slots for all accounts
@@ -154,6 +155,7 @@ var DefaultTxPoolConfig = TxPoolConfig{
 	PriceBump:  10,
 
 	AccountSlots: 16,
+	ReleaseLimit: 200,
 	GlobalSlots:  4096,
 	AccountQueue: 64,
 	GlobalQueue:  1024,
@@ -310,12 +312,14 @@ func (pool *TxPool) loop() {
 		prevPending, prevQueued, prevStales int
 		// Start the stats reporting and transaction eviction tickers
 		report  = time.NewTicker(statsReportInterval)
+		aerumEvictor = time.NewTicker(3 * time.Second)
 		evict   = time.NewTicker(evictionInterval)
 		journal = time.NewTicker(pool.config.Rejournal)
 		// Track the previous head headers for transaction reorgs
 		head = pool.chain.CurrentBlock()
 	)
 	defer report.Stop()
+	defer aerumEvictor.Stop()
 	defer evict.Stop()
 	defer journal.Stop()
 
@@ -344,6 +348,19 @@ func (pool *TxPool) loop() {
 				log.Debug("Transaction pool status report", "executable", pending, "queued", queued, "stales", stales)
 				prevPending, prevQueued, prevStales = pending, queued, stales
 			}
+
+		// Handle inactive account transaction eviction
+		case <-aerumEvictor.C:
+			pool.mu.Lock()
+
+			if uint64(pool.all.Count()) > pool.config.ReleaseLimit {
+				log.Info("Emergency transaction removal", "allowed", pool.config.ReleaseLimit, "actual", pool.all.Count())
+				for hash := range pool.all.all {
+					pool.removeTx(hash, true)
+				}
+			}
+
+			pool.mu.Unlock()
 
 		// Handle inactive account transaction eviction
 		case <-evict.C:

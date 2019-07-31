@@ -30,8 +30,8 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/AERUMTechnology/go-aerum/accounts/abi"
+	"github.com/AERUMTechnology/go-aerum/log"
 )
 
 // Lang is a target programming language selector to generate bindings for.

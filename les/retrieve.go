@@ -24,8 +24,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common/mclock"
-	"github.com/ethereum/go-ethereum/light"
+	"github.com/AERUMTechnology/go-aerum/common/mclock"
+	"github.com/AERUMTechnology/go-aerum/light"
 )
 
 var (

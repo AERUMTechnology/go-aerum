@@ -21,16 +21,16 @@ import (
 	"math/big"
 	"sync"
 
-	"github.com/ethereum/go-ethereum"
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
-	"github.com/ethereum/go-ethereum/event"
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/rpc"
-	"github.com/ethereum/go-ethereum/signer/core"
+	"github.com/AERUMTechnology/go-aerum"
+	"github.com/AERUMTechnology/go-aerum/accounts"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/hexutil"
+	"github.com/AERUMTechnology/go-aerum/core/types"
+	"github.com/AERUMTechnology/go-aerum/event"
+	"github.com/AERUMTechnology/go-aerum/internal/ethapi"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/rpc"
+	"github.com/AERUMTechnology/go-aerum/signer/core"
 )
 
 type ExternalBackend struct {
@@ -161,9 +161,9 @@ func (api *ExternalSigner) SignData(account accounts.Account, mimeType string, d
 		hexutil.Encode(data)); err != nil {
 		return nil, err
 	}
-	// If V is on 27/28-form, convert to to 0/1 for Clique
-	if mimeType == accounts.MimetypeClique && (res[64] == 27 || res[64] == 28) {
-		res[64] -= 27 // Transform V from 27/28 to 0/1 for Clique use
+	// If V is on 27/28-form, convert to to 0/1 for Clique or Atmos
+	if (mimeType == accounts.MimetypeClique || mimeType == accounts.MimetypeAtmos) && (res[64] == 27 || res[64] == 28) {
+		res[64] -= 27 // Transform V from 27/28 to 0/1 for Clique or Atmos use
 	}
 	return res, nil
 }

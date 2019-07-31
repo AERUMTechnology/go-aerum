@@ -32,10 +32,10 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/crypto/ecies"
-	"github.com/ethereum/go-ethereum/p2p/simulations/pipes"
-	"github.com/ethereum/go-ethereum/rlp"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/crypto/ecies"
+	"github.com/AERUMTechnology/go-aerum/p2p/simulations/pipes"
+	"github.com/AERUMTechnology/go-aerum/rlp"
 	"golang.org/x/crypto/sha3"
 )
 

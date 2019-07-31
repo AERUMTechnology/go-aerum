@@ -29,24 +29,24 @@ import (
 	"time"
 
 	"github.com/elastic/gosigar"
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/cmd/utils"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/console"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/internal/debug"
-	"github.com/ethereum/go-ethereum/les"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/node"
+	"github.com/AERUMTechnology/go-aerum/accounts"
+	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum/cmd/utils"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/console"
+	"github.com/AERUMTechnology/go-aerum/eth"
+	"github.com/AERUMTechnology/go-aerum/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum/ethclient"
+	"github.com/AERUMTechnology/go-aerum/internal/debug"
+	"github.com/AERUMTechnology/go-aerum/les"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/metrics"
+	"github.com/AERUMTechnology/go-aerum/node"
 	cli "gopkg.in/urfave/cli.v1"
 )
 
 const (
-	clientIdentifier = "geth" // Client identifier to advertise over the network
+	clientIdentifier = "aerum" // Client identifier to advertise over the network
 )
 
 var (
@@ -88,6 +88,7 @@ var (
 		utils.TxPoolAccountSlotsFlag,
 		utils.TxPoolGlobalSlotsFlag,
 		utils.TxPoolAccountQueueFlag,
+		utils.TxPoolReleaseLimitFlag,
 		utils.TxPoolGlobalQueueFlag,
 		utils.TxPoolLifetimeFlag,
 		utils.SyncModeFlag,
@@ -190,11 +191,18 @@ var (
 		utils.MetricsInfluxDBPasswordFlag,
 		utils.MetricsInfluxDBTagsFlag,
 	}
+
+	// Added by Aerum
+	aerumFlags = []cli.Flag{
+		utils.AtmosEthereumApiEndpointFlag,
+		utils.AtmosGovernance,
+		utils.AtmosTestNet,
+	}
 )
 
 func init() {
 	// Initialize the CLI app and start Geth
-	app.Action = geth
+	app.Action = aerum
 	app.HideVersion = true // we have a command to print the version
 	app.Copyright = "Copyright 2013-2019 The go-ethereum Authors"
 	app.Commands = []cli.Command{
@@ -233,6 +241,8 @@ func init() {
 	app.Flags = append(app.Flags, debug.Flags...)
 	app.Flags = append(app.Flags, whisperFlags...)
 	app.Flags = append(app.Flags, metricsFlags...)
+	// Added by Aerum
+	app.Flags = append(app.Flags, aerumFlags...)
 
 	app.Before = func(ctx *cli.Context) error {
 		logdir := ""
@@ -302,7 +312,7 @@ func main() {
 // geth is the main entry point into the system if no special subcommand is ran.
 // It creates a default node based on the command line arguments and runs it in
 // blocking mode, waiting for it to be shut down.
-func geth(ctx *cli.Context) error {
+func aerum(ctx *cli.Context) error {
 	if args := ctx.Args(); len(args) > 0 {
 		return fmt.Errorf("invalid command: %q", args[0])
 	}
@@ -317,6 +327,9 @@ func geth(ctx *cli.Context) error {
 // it unlocks any requested accounts, and starts the RPC/IPC interfaces and the
 // miner.
 func startNode(ctx *cli.Context, stack *node.Node) {
+	// Added by Aerum
+	log.Info("Starting Aerum version")
+
 	debug.Memsize.Add("node", stack)
 
 	// Start up the node itself

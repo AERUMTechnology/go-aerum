@@ -21,7 +21,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/ethereum/go-ethereum/event"
+	"github.com/AERUMTechnology/go-aerum/event"
 )
 
 // Config contains the settings of the global account manager.

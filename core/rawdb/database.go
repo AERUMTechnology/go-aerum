@@ -23,11 +23,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/ethdb/leveldb"
-	"github.com/ethereum/go-ethereum/ethdb/memorydb"
-	"github.com/ethereum/go-ethereum/log"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/ethdb"
+	"github.com/AERUMTechnology/go-aerum/ethdb/leveldb"
+	"github.com/AERUMTechnology/go-aerum/ethdb/memorydb"
+	"github.com/AERUMTechnology/go-aerum/log"
 	"github.com/olekukonko/tablewriter"
 )
 
@@ -242,7 +242,9 @@ func InspectDatabase(db ethdb.Database) error {
 		txlookupSize    common.StorageSize
 		preimageSize    common.StorageSize
 		bloomBitsSize   common.StorageSize
+		// Added by Aerum
 		cliqueSnapsSize common.StorageSize
+		atmosSnapsSize common.StorageSize
 
 		// Ancient store statistics
 		ancientHeaders  common.StorageSize
@@ -287,6 +289,9 @@ func InspectDatabase(db ethdb.Database) error {
 			bloomBitsSize += size
 		case bytes.HasPrefix(key, []byte("clique-")) && len(key) == 7+common.HashLength:
 			cliqueSnapsSize += size
+		// Added by Aerum
+		case bytes.HasPrefix(key, []byte("atmos-")) && len(key) == 7+common.HashLength:
+			atmosSnapsSize += size
 		case bytes.HasPrefix(key, []byte("cht-")) && len(key) == 4+common.HashLength:
 			chtTrieNodes += size
 		case bytes.HasPrefix(key, []byte("blt-")) && len(key) == 4+common.HashLength:
@@ -333,6 +338,8 @@ func InspectDatabase(db ethdb.Database) error {
 		{"Key-Value store", "Trie nodes", trieSize.String()},
 		{"Key-Value store", "Trie preimages", preimageSize.String()},
 		{"Key-Value store", "Clique snapshots", cliqueSnapsSize.String()},
+		// Added by Aerum
+		{"Key-Value store", "Atmos snapshots", atmosSnapsSize.String()},
 		{"Key-Value store", "Singleton metadata", metadata.String()},
 		{"Ancient store", "Headers", ancientHeaders.String()},
 		{"Ancient store", "Bodies", ancientBodies.String()},

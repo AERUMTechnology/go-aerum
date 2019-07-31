@@ -26,7 +26,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/AERUMTechnology/go-aerum/common"
 )
 
 var bindTests = []struct {

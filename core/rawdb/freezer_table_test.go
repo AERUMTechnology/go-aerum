@@ -25,7 +25,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/metrics"
+	"github.com/AERUMTechnology/go-aerum/metrics"
 )
 
 func init() {

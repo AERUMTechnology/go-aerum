@@ -10,8 +10,8 @@ fi
 # Create fake Go workspace if it doesn't exist yet.
 workspace="$PWD/build/_workspace"
 root="$PWD"
-ethdir="$workspace/src/github.com/ethereum"
-if [ ! -L "$ethdir/go-ethereum" ]; then
+ethdir="$workspace/src/github.com/AERUMTechnology"
+if [ ! -L "$ethdir/go-aerum" ]; then
     mkdir -p "$ethdir"
     cd "$ethdir"
     ln -s ../../../../../. go-ethereum
@@ -23,8 +23,8 @@ GOPATH="$workspace"
 export GOPATH
 
 # Run the command inside the workspace.
-cd "$ethdir/go-ethereum"
-PWD="$ethdir/go-ethereum"
+cd "$ethdir/go-aerum"
+PWD="$ethdir/go-aerum"
 
 # Launch the arguments with the configured environment.
 exec "$@"

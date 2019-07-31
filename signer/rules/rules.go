@@ -22,11 +22,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/internal/ethapi"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/signer/core"
-	"github.com/ethereum/go-ethereum/signer/rules/deps"
-	"github.com/ethereum/go-ethereum/signer/storage"
+	"github.com/AERUMTechnology/go-aerum/internal/ethapi"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/signer/core"
+	"github.com/AERUMTechnology/go-aerum/signer/rules/deps"
+	"github.com/AERUMTechnology/go-aerum/signer/storage"
 	"github.com/robertkrimen/otto"
 )
 

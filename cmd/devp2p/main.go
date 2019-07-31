@@ -21,8 +21,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ethereum/go-ethereum/internal/debug"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AERUMTechnology/go-aerum/internal/debug"
+	"github.com/AERUMTechnology/go-aerum/params"
 	"gopkg.in/urfave/cli.v1"
 )
 

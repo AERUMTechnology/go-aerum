@@ -29,37 +29,38 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ethereum/go-ethereum/accounts"
-	"github.com/ethereum/go-ethereum/accounts/keystore"
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/fdlimit"
-	"github.com/ethereum/go-ethereum/consensus"
-	"github.com/ethereum/go-ethereum/consensus/clique"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/core/vm"
-	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/dashboard"
-	"github.com/ethereum/go-ethereum/eth"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/gasprice"
-	"github.com/ethereum/go-ethereum/ethdb"
-	"github.com/ethereum/go-ethereum/ethstats"
-	"github.com/ethereum/go-ethereum/graphql"
-	"github.com/ethereum/go-ethereum/les"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/metrics"
-	"github.com/ethereum/go-ethereum/metrics/influxdb"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/node"
-	"github.com/ethereum/go-ethereum/p2p"
-	"github.com/ethereum/go-ethereum/p2p/discv5"
-	"github.com/ethereum/go-ethereum/p2p/enode"
-	"github.com/ethereum/go-ethereum/p2p/nat"
-	"github.com/ethereum/go-ethereum/p2p/netutil"
-	"github.com/ethereum/go-ethereum/params"
-	"github.com/ethereum/go-ethereum/rpc"
-	whisper "github.com/ethereum/go-ethereum/whisper/whisperv6"
+	"github.com/AERUMTechnology/go-aerum/accounts"
+	"github.com/AERUMTechnology/go-aerum/accounts/keystore"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/common/fdlimit"
+	"github.com/AERUMTechnology/go-aerum/consensus"
+	"github.com/AERUMTechnology/go-aerum/consensus/atmos"
+	"github.com/AERUMTechnology/go-aerum/consensus/clique"
+	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/core/vm"
+	"github.com/AERUMTechnology/go-aerum/crypto"
+	"github.com/AERUMTechnology/go-aerum/dashboard"
+	"github.com/AERUMTechnology/go-aerum/eth"
+	"github.com/AERUMTechnology/go-aerum/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum/eth/gasprice"
+	"github.com/AERUMTechnology/go-aerum/ethdb"
+	"github.com/AERUMTechnology/go-aerum/ethstats"
+	"github.com/AERUMTechnology/go-aerum/graphql"
+	"github.com/AERUMTechnology/go-aerum/les"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/metrics"
+	"github.com/AERUMTechnology/go-aerum/metrics/influxdb"
+	"github.com/AERUMTechnology/go-aerum/miner"
+	"github.com/AERUMTechnology/go-aerum/node"
+	"github.com/AERUMTechnology/go-aerum/p2p"
+	"github.com/AERUMTechnology/go-aerum/p2p/discv5"
+	"github.com/AERUMTechnology/go-aerum/p2p/enode"
+	"github.com/AERUMTechnology/go-aerum/p2p/nat"
+	"github.com/AERUMTechnology/go-aerum/p2p/netutil"
+	"github.com/AERUMTechnology/go-aerum/params"
+	"github.com/AERUMTechnology/go-aerum/rpc"
+	whisper "github.com/AERUMTechnology/go-aerum/whisper/whisperv6"
 	pcsclite "github.com/gballet/go-libpcsclite"
 	cli "gopkg.in/urfave/cli.v1"
 )
@@ -337,6 +338,11 @@ var (
 		Name:  "txpool.accountslots",
 		Usage: "Minimum number of executable transaction slots guaranteed per account",
 		Value: eth.DefaultConfig.TxPool.AccountSlots,
+	}
+	TxPoolReleaseLimitFlag = cli.Uint64Flag{
+		Name:  "txpool.releaselimit",
+		Usage: "Maximum number of allowed transaction in pending pool.",
+		Value: eth.DefaultConfig.TxPool.ReleaseLimit,
 	}
 	TxPoolGlobalSlotsFlag = cli.Uint64Flag{
 		Name:  "txpool.globalslots",
@@ -705,7 +711,7 @@ var (
 	MetricsInfluxDBDatabaseFlag = cli.StringFlag{
 		Name:  "metrics.influxdb.database",
 		Usage: "InfluxDB database name to push reported metrics to",
-		Value: "geth",
+		Value: "aerum",
 	}
 	MetricsInfluxDBUsernameFlag = cli.StringFlag{
 		Name:  "metrics.influxdb.username",
@@ -736,6 +742,19 @@ var (
 		Name:  "vm.evm",
 		Usage: "External EVM configuration (default = built-in interpreter)",
 		Value: "",
+	}
+	// Added by Aerum
+	AtmosEthereumApiEndpointFlag = cli.StringFlag{
+		Name:  "atmos.ethereum.endpoint",
+		Usage: "Ethereum IPC or RPC endpoint for Atmos synchronization",
+	}
+	AtmosGovernance = cli.StringFlag{
+		Name:  "atmos.governance",
+		Usage: "Atmos governance address",
+	}
+	AtmosTestNet = cli.BoolFlag{
+		Name:  "atmos.testnet",
+		Usage: "Should Atmos testnet be used",
 	}
 )
 
@@ -1249,6 +1268,9 @@ func setTxPool(ctx *cli.Context, cfg *core.TxPoolConfig) {
 	if ctx.GlobalIsSet(TxPoolAccountSlotsFlag.Name) {
 		cfg.AccountSlots = ctx.GlobalUint64(TxPoolAccountSlotsFlag.Name)
 	}
+	if ctx.GlobalIsSet(TxPoolReleaseLimitFlag.Name) {
+		cfg.ReleaseLimit = ctx.GlobalUint64(TxPoolReleaseLimitFlag.Name)
+	}
 	if ctx.GlobalIsSet(TxPoolGlobalSlotsFlag.Name) {
 		cfg.GlobalSlots = ctx.GlobalUint64(TxPoolGlobalSlotsFlag.Name)
 	}
@@ -1625,6 +1647,24 @@ func SplitTagsFlag(tagsFlag string) map[string]string {
 	return tagsMap
 }
 
+// Added by Aerum
+func SetAtmosConfig(ctx *cli.Context, cfg *eth.Config) {
+	if ctx.GlobalIsSet(AtmosEthereumApiEndpointFlag.Name) {
+		log.Info("Ethereum API endpoint", "endpoint", ctx.GlobalString(AtmosEthereumApiEndpointFlag.Name))
+		cfg.EthereumApiEndpoint = ctx.GlobalString(AtmosEthereumApiEndpointFlag.Name)
+	}
+	if ctx.GlobalIsSet(AtmosGovernance.Name) {
+		log.Info("Atmos governance", "address", ctx.GlobalString(AtmosGovernance.Name))
+		cfg.AtmosGovernance = ctx.GlobalString(AtmosGovernance.Name)
+	}
+	if ctx.GlobalIsSet(AtmosTestNet.Name) {
+		log.Info("Should Atmos testnet be used", "answer", ctx.GlobalString(AtmosTestNet.Name))
+		cfg.EnableAtmostTestNet = ctx.GlobalBool(AtmosTestNet.Name)
+	} else {
+		cfg.EnableAtmostTestNet = false
+	}
+}
+
 // MakeChainDatabase open an LevelDB using the flags passed to the client and will hard crash if it fails.
 func MakeChainDatabase(ctx *cli.Context, stack *node.Node) ethdb.Database {
 	var (
@@ -1668,6 +1708,9 @@ func MakeChain(ctx *cli.Context, stack *node.Node) (chain *core.BlockChain, chai
 	var engine consensus.Engine
 	if config.Clique != nil {
 		engine = clique.New(config.Clique, chainDb)
+	// Added by Aerum
+	} else if config.Atmos != nil {
+		engine = atmos.New(config.Atmos, chainDb)
 	} else {
 		engine = ethash.NewFaker()
 		if !ctx.GlobalBool(FakePoWFlag.Name) {

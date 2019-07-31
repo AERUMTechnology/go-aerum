@@ -29,19 +29,53 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/log"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/log"
+	"github.com/AERUMTechnology/go-aerum/params"
 )
+
+func getBootstrapDelegates() ([]common.Address, error) {
+	fmt.Println("\n\n[aerDEV] --------------------------------------------------------------------------------------------------------- [aerDEV]")
+	fmt.Println("[aerDEV] --- We are calling our Governance Contract on Ethereum to add our bootstrap signers to this genesis --- [aerDEV]")
+	fmt.Println("[aerDEV] --------------------------------------------------------------------------------------------------------- [aerDEV]\n\n")
+	bootstrapDelegates := make([]common.Address, 0)
+	ethclient, err := ethclient.Dial( params.NewAtmosEthereumRPCProvider() )
+	if err != nil {
+		fmt.Println(err)
+	}
+	caller, err := guvnor.NewAtmosCaller( params.NewAtmosGovernanceAddress(), ethclient)
+	if err != nil {
+		fmt.Println(err)
+	}
+	addresses, err := caller.GetComposers(&bind.CallOpts{}, big.NewInt(0), big.NewInt(time.Now().Unix()))
+	if err != nil {
+		fmt.Println(err)
+	}
+	if len(addresses) < params.NewAtmosMinDelegateNo() {
+		log.Error("Failed to save genesis file", "err",  fmt.Sprintf("Not enough Delegates to continue. Only %d found - Contact the aerum team to report this issue.", len(addresses) ) )
+	}
+	if len(addresses) >= params.NewAtmosMinDelegateNo() {
+		log.Info(fmt.Sprintf("Fantastic! we found %d delegates. you may proceed in generating a genesis.", len(addresses)))
+	}
+	for _, address := range addresses {
+		bootstrapDelegates = append(bootstrapDelegates, address)
+	}
+	return bootstrapDelegates, nil
+}
 
 // makeGenesis creates a new genesis struct based on some user input.
 func (w *wizard) makeGenesis() {
+	boostrapDelegate, err := getBootstrapDelegates()
+	if err != nil {
+		log.Error("Failed to save genesis file", "err",  fmt.Sprintf("There was a problem getting our bootstrap delegates. Please report this error %s.", err ) )
+	}
+
 	// Construct a default genesis block
 	genesis := &core.Genesis{
 		Timestamp:  uint64(time.Now().Unix()),
-		GasLimit:   4700000,
-		Difficulty: big.NewInt(524288),
+		GasLimit:   params.NewAtmosGasLimit(),
+		Difficulty: big.NewInt(1),
 		Alloc:      make(core.GenesisAlloc),
 		Config: &params.ChainConfig{
 			HomesteadBlock:      big.NewInt(0),
@@ -51,45 +85,26 @@ func (w *wizard) makeGenesis() {
 			ByzantiumBlock:      big.NewInt(0),
 			ConstantinopleBlock: big.NewInt(0),
 			PetersburgBlock:     big.NewInt(0),
+			Atmos: &params.AtmosConfig{
+				Period:                     params.NewAtmosBlockInterval(),
+				Epoch:                      params.NewAtmosEpochInterval(),
+				GovernanceAddress:          params.NewAtmosGovernanceAddress(),
+				EthereumApiEndpoint: params.NewAtmosEthereumRPCProvider(),
+			},
 		},
 	}
 	// Figure out which consensus engine to choose
 	fmt.Println()
-	fmt.Println("Which consensus engine to use? (default = clique)")
-	fmt.Println(" 1. Ethash - proof-of-work")
-	fmt.Println(" 2. Clique - proof-of-authority")
+	fmt.Println("Which consensus engine to use? As if you have a choice... Please type 1 or simply click ENTER.")
+	fmt.Println(" 1. ATMOS - DxPoS consensus (delegated `cross-chain proof-of-stake`)")
 
 	choice := w.read()
 	switch {
-	case choice == "1":
-		// In case of ethash, we're pretty much done
-		genesis.Config.Ethash = new(params.EthashConfig)
-		genesis.ExtraData = make([]byte, 32)
-
-	case choice == "" || choice == "2":
-		// In the case of clique, configure the consensus parameters
-		genesis.Difficulty = big.NewInt(1)
-		genesis.Config.Clique = &params.CliqueConfig{
-			Period: 15,
-			Epoch:  30000,
-		}
-		fmt.Println()
-		fmt.Println("How many seconds should blocks take? (default = 15)")
-		genesis.Config.Clique.Period = uint64(w.readDefaultInt(15))
-
-		// We also need the initial list of signers
-		fmt.Println()
-		fmt.Println("Which accounts are allowed to seal? (mandatory at least one)")
-
+	case len(choice) < 1 || choice == "1":
+		genesis.Config.ChainID = new(big.Int).SetUint64(uint64( params.NewAtmosNetID() ))
 		var signers []common.Address
-		for {
-			if address := w.readAddress(); address != nil {
-				signers = append(signers, *address)
-				continue
-			}
-			if len(signers) > 0 {
-				break
-			}
+		for _, signer := range boostrapDelegate {
+			signers = append(signers, signer)
 		}
 		// Sort the signers and embed into the extra-data section
 		for i := 0; i < len(signers); i++ {
@@ -120,6 +135,21 @@ func (w *wizard) makeGenesis() {
 		}
 		break
 	}
+
+	fmt.Println("\n\n[aerDEV] ----------------------------------------------------------- [aerDEV]")
+	fmt.Println("[aerDEV] --- We have just preallocated some Aerum Coin to hard coded accounts --- [aerDEV]")
+	fmt.Println("[aerDEV] ----------------------------------------------------------- [aerDEV]\n\n")
+
+	for aerumTeamAddress, aerumTeamBalance := range params.NewAerumPreAlloc() {
+		bigaddr, _ := new(big.Int).SetString(aerumTeamAddress, 16)
+		address := common.BigToAddress(bigaddr)
+		bignum := new(big.Int)
+		bignum.SetString(aerumTeamBalance, 10)
+		genesis.Alloc[address] = core.GenesisAccount{
+			Balance: bignum,
+		}
+	}
+
 	fmt.Println()
 	fmt.Println("Should the precompile-addresses (0x1 .. 0xff) be pre-funded with 1 wei? (advisable yes)")
 	if w.readDefaultYesNo(true) {
@@ -128,10 +158,6 @@ func (w *wizard) makeGenesis() {
 			genesis.Alloc[common.BigToAddress(big.NewInt(i))] = core.GenesisAccount{Balance: big.NewInt(1)}
 		}
 	}
-	// Query the user for some custom extras
-	fmt.Println()
-	fmt.Println("Specify your chain/network ID if you want an explicit one (default = random)")
-	genesis.Config.ChainID = new(big.Int).SetUint64(uint64(w.readDefaultInt(rand.Intn(65536))))
 
 	// All done, store the genesis and flush to disk
 	log.Info("Configured new genesis block")
@@ -192,50 +218,50 @@ func (w *wizard) importGenesis() {
 func (w *wizard) manageGenesis() {
 	// Figure out whether to modify or export the genesis
 	fmt.Println()
-	fmt.Println(" 1. Modify existing configurations")
-	fmt.Println(" 2. Export genesis configurations")
-	fmt.Println(" 3. Remove genesis configuration")
+	// fmt.Println(" 1. Modify existing configurations")
+	fmt.Println(" 1. Export genesis configurations")
+	fmt.Println(" 2. Remove genesis configuration")
 
 	choice := w.read()
 	switch choice {
+	//case "1":
+	//	// Fork rule updating requested, iterate over each fork
+	//	fmt.Println()
+	//	fmt.Printf("Which block should Homestead come into effect? (default = %v)\n", w.conf.Genesis.Config.HomesteadBlock)
+	//	w.conf.Genesis.Config.HomesteadBlock = w.readDefaultBigInt(w.conf.Genesis.Config.HomesteadBlock)
+	//
+	//	fmt.Println()
+	//	fmt.Printf("Which block should EIP150 (Tangerine Whistle) come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP150Block)
+	//	w.conf.Genesis.Config.EIP150Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP150Block)
+	//
+	//	fmt.Println()
+	//	fmt.Printf("Which block should EIP155 (Spurious Dragon) come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP155Block)
+	//	w.conf.Genesis.Config.EIP155Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP155Block)
+	//
+	//	fmt.Println()
+	//	fmt.Printf("Which block should EIP158/161 (also Spurious Dragon) come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP158Block)
+	//	w.conf.Genesis.Config.EIP158Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP158Block)
+	//
+	//	fmt.Println()
+	//	fmt.Printf("Which block should Byzantium come into effect? (default = %v)\n", w.conf.Genesis.Config.ByzantiumBlock)
+	//	w.conf.Genesis.Config.ByzantiumBlock = w.readDefaultBigInt(w.conf.Genesis.Config.ByzantiumBlock)
+	//
+	//	fmt.Println()
+	//	fmt.Printf("Which block should Constantinople come into effect? (default = %v)\n", w.conf.Genesis.Config.ConstantinopleBlock)
+	//	w.conf.Genesis.Config.ConstantinopleBlock = w.readDefaultBigInt(w.conf.Genesis.Config.ConstantinopleBlock)
+	//	if w.conf.Genesis.Config.PetersburgBlock == nil {
+	//		w.conf.Genesis.Config.PetersburgBlock = w.conf.Genesis.Config.ConstantinopleBlock
+	//	}
+	//	fmt.Println()
+	//	fmt.Printf("Which block should Petersburg come into effect? (default = %v)\n", w.conf.Genesis.Config.PetersburgBlock)
+	//	w.conf.Genesis.Config.PetersburgBlock = w.readDefaultBigInt(w.conf.Genesis.Config.PetersburgBlock)
+	//
+	//	out, _ := json.MarshalIndent(w.conf.Genesis.Config, "", "  ")
+	//	fmt.Printf("Chain configuration updated:\n\n%s\n", out)
+	//
+	//	w.conf.flush()
+
 	case "1":
-		// Fork rule updating requested, iterate over each fork
-		fmt.Println()
-		fmt.Printf("Which block should Homestead come into effect? (default = %v)\n", w.conf.Genesis.Config.HomesteadBlock)
-		w.conf.Genesis.Config.HomesteadBlock = w.readDefaultBigInt(w.conf.Genesis.Config.HomesteadBlock)
-
-		fmt.Println()
-		fmt.Printf("Which block should EIP150 (Tangerine Whistle) come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP150Block)
-		w.conf.Genesis.Config.EIP150Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP150Block)
-
-		fmt.Println()
-		fmt.Printf("Which block should EIP155 (Spurious Dragon) come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP155Block)
-		w.conf.Genesis.Config.EIP155Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP155Block)
-
-		fmt.Println()
-		fmt.Printf("Which block should EIP158/161 (also Spurious Dragon) come into effect? (default = %v)\n", w.conf.Genesis.Config.EIP158Block)
-		w.conf.Genesis.Config.EIP158Block = w.readDefaultBigInt(w.conf.Genesis.Config.EIP158Block)
-
-		fmt.Println()
-		fmt.Printf("Which block should Byzantium come into effect? (default = %v)\n", w.conf.Genesis.Config.ByzantiumBlock)
-		w.conf.Genesis.Config.ByzantiumBlock = w.readDefaultBigInt(w.conf.Genesis.Config.ByzantiumBlock)
-
-		fmt.Println()
-		fmt.Printf("Which block should Constantinople come into effect? (default = %v)\n", w.conf.Genesis.Config.ConstantinopleBlock)
-		w.conf.Genesis.Config.ConstantinopleBlock = w.readDefaultBigInt(w.conf.Genesis.Config.ConstantinopleBlock)
-		if w.conf.Genesis.Config.PetersburgBlock == nil {
-			w.conf.Genesis.Config.PetersburgBlock = w.conf.Genesis.Config.ConstantinopleBlock
-		}
-		fmt.Println()
-		fmt.Printf("Which block should Petersburg come into effect? (default = %v)\n", w.conf.Genesis.Config.PetersburgBlock)
-		w.conf.Genesis.Config.PetersburgBlock = w.readDefaultBigInt(w.conf.Genesis.Config.PetersburgBlock)
-
-		out, _ := json.MarshalIndent(w.conf.Genesis.Config, "", "  ")
-		fmt.Printf("Chain configuration updated:\n\n%s\n", out)
-
-		w.conf.flush()
-
-	case "2":
 		// Save whatever genesis configuration we currently have
 		fmt.Println()
 		fmt.Printf("Which folder to save the genesis specs into? (default = current)\n")
@@ -271,7 +297,7 @@ func (w *wizard) manageGenesis() {
 		// Export the genesis spec used by Harmony (formerly EthereumJ
 		saveGenesis(folder, w.network, "harmony", w.conf.Genesis)
 
-	case "3":
+	case "2":
 		// Make sure we don't have any services running
 		if len(w.conf.servers()) > 0 {
 			log.Error("Genesis reset requires all services and servers torn down")

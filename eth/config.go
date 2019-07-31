@@ -24,13 +24,13 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/consensus/ethash"
-	"github.com/ethereum/go-ethereum/core"
-	"github.com/ethereum/go-ethereum/eth/downloader"
-	"github.com/ethereum/go-ethereum/eth/gasprice"
-	"github.com/ethereum/go-ethereum/miner"
-	"github.com/ethereum/go-ethereum/params"
+	"github.com/AERUMTechnology/go-aerum/common"
+	"github.com/AERUMTechnology/go-aerum/consensus/ethash"
+	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/eth/downloader"
+	"github.com/AERUMTechnology/go-aerum/eth/gasprice"
+	"github.com/AERUMTechnology/go-aerum/miner"
+	"github.com/AERUMTechnology/go-aerum/params"
 )
 
 // DefaultConfig contains default settings for use on the Ethereum main net.
@@ -154,4 +154,14 @@ type Config struct {
 
 	// CheckpointOracle is the configuration for checkpoint oracle.
 	CheckpointOracle *params.CheckpointOracleConfig
+
+	// Added by Aerum
+	// Ethereum IPC or RPC endpoint for Atmos synchronization
+	EthereumApiEndpoint string
+
+	// Atmos governance address
+	AtmosGovernance string
+
+	// Should Atmos testnet be used
+	EnableAtmostTestNet bool
 }
