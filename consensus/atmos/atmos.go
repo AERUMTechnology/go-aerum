@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"errors"
 	"io"
+	"math"
 	"math/big"
 	"math/rand"
 	"strings"
@@ -52,16 +53,17 @@ const (
 
 	wiggleTime = 500 * time.Millisecond // Random delay (per signer) to allow concurrent signers
 
-	recentsTimeout = 30 * time.Second // Timeout between signing blocks in case signer is recent
+	recentsTimeout  = 30 * time.Second // Timeout between signing blocks in case signer is recent
+	numberOfSigners = 10               // Maximum number of signers available in epoch
 )
 
 // Atmos proof-of-authority protocol constants.
 var (
 	// Added by Aerum
-	BlockReward = params.NewAtmosBlockRewards()// Block reward in wei for successfully mining a block
+	BlockReward = params.NewAtmosBlockRewards() // Block reward in wei for successfully mining a block
 
 	epochLength = params.NewAtmosEpochInterval() // Default number of blocks after which to checkpoint and reset the pending votes
-	blockPeriod = params.NewAtmosBlockInterval()    // Default minimum difference between two consecutive block's timestamps
+	blockPeriod = params.NewAtmosBlockInterval() // Default minimum difference between two consecutive block's timestamps
 
 	extraVanity = 32 // Fixed number of extra-data prefix bytes reserved for signer vanity
 	extraSeal   = 65 // Fixed number of extra-data suffix bytes reserved for signer seal
@@ -170,8 +172,8 @@ func ecrecover(header *types.Header, sigcache *lru.ARCCache) (common.Address, er
 // Atmos is the proof-of-authority consensus engine proposed to support the
 // Ethereum testnet following the Ropsten attacks.
 type Atmos struct {
-	config *params.AtmosConfig  // Consensus engine configuration parameters
-	db     ethdb.Database       // Database to store and retrieve snapshot checkpoints
+	config *params.AtmosConfig // Consensus engine configuration parameters
+	db     ethdb.Database      // Database to store and retrieve snapshot checkpoints
 
 	recents    *lru.ARCCache // Snapshots for recent block to speed up reorgs
 	signatures *lru.ARCCache // Signatures of recent blocks to speed up mining
@@ -768,7 +770,6 @@ func encodeSigHeader(w io.Writer, header *types.Header) {
 	}
 }
 
-
 // Added by Aerum
 func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, number uint64, parents []*types.Header) ([]common.Address, error) {
 	ethereumApiEndpoint := getEthereumApiEndpoint(config)
@@ -786,8 +787,7 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 	composersCheckTimestamp := big.NewInt(0)
 	if number > 0 {
 		// Get previous block to get time from it
-		prevHeader := getHeader(chain, parents, number - 1)
-
+		prevHeader := getHeader(chain, parents, number-1)
 
 		// Take composers for 20 minutes before now to make sure Ethereum syncs and there is no forks
 		var ethereumSyncTimeoutInSeconds int64 = 20 * 60
@@ -798,6 +798,17 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 	addresses, err := caller.GetComposers(&bind.CallOpts{}, big.NewInt(int64(number)), composersCheckTimestamp)
 	if err != nil {
 		return nil, err
+	}
+
+	actualNumberOfSigners := int(math.Min(float64(len(addresses)), numberOfSigners))
+	start := int(number / config.Epoch) % actualNumberOfSigners
+	log.Info("Selecting new signers", "actual number of signers", actualNumberOfSigners, "shift", start)
+
+	// We select only limited number of signers and shift them on every epoch
+	selectedAddresses := make([]common.Address, 0)
+	for index := 0; index < actualNumberOfSigners; index++ {
+		shiftIndex := (start + index) % len(addresses)
+		selectedAddresses = append(selectedAddresses, addresses[shiftIndex])
 	}
 
 	hexAddresses := make([]string, 0)
