@@ -795,7 +795,7 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 	}
 
 	log.Info("Loading new headers", "number", number, "time", composersCheckTimestamp)
-	addresses, err := caller.GetComposers(&bind.CallOpts{}, big.NewInt(int64(number)), composersCheckTimestamp)
+	addresses, _, err := caller.GetComposersWithStakes(&bind.CallOpts{}, big.NewInt(int64(number)), composersCheckTimestamp)
 	if err != nil {
 		return nil, err
 	}
