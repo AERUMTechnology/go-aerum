@@ -23,14 +23,16 @@ import (
 	"io"
 	"io/ioutil"
 	"math/big"
-	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/AERUMTechnology/go-aerum/accounts/abi/bind"
 	"github.com/AERUMTechnology/go-aerum/common"
+	guvnor "github.com/AERUMTechnology/go-aerum/contracts/atmosGovernance"
 	"github.com/AERUMTechnology/go-aerum/core"
+	"github.com/AERUMTechnology/go-aerum/ethclient"
 	"github.com/AERUMTechnology/go-aerum/log"
 	"github.com/AERUMTechnology/go-aerum/params"
 )
