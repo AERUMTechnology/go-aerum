@@ -10,10 +10,10 @@ var (
 	atmosMinDelegateNo           = 3
 	atmosNetID                   = 538
 	atmosGovernanceAddress       = "0x7f07f6627e9bf1fc821360e0c20f32af532df106"
-	atmosTestGovernanceAddress   = "0xbc5f91fc3bad1c6f3ecd69c3bb34c849ab9797b4"
-	atmosBlockInterval           = uint64(2)
-	atmosEpochInterval           = uint64(1000)
-	atmosGasLimit                = uint64(21000000)
+	atmosTestGovernanceAddress   = "0xd525F2586e8657846b2744c103a016e0D798FEB1"
+	atmosBlockInterval           = uint64(3)
+	atmosEpochInterval           = uint64(100)
+	atmosGasLimit                = uint64(126000000)
 	atmosEthereumRPCProvider     = "https://mainnet.infura.io"
 	atmosTestEthereumRPCProvider = "https://rinkeby.infura.io"
 	atmosBlockRewards            = big.NewInt(0.487e+18)
