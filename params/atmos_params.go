@@ -16,7 +16,7 @@ var (
 	atmosGasLimit                = uint64(126000000)
 	atmosEthereumRPCProvider     = "https://mainnet.infura.io"
 	atmosTestEthereumRPCProvider = "https://rinkeby.infura.io"
-	atmosBlockRewards            = big.NewInt(0.487e+18)
+	atmosBlockRewards            = big.NewInt(888 * 1e+18)
 )
 
 func NewAtmosMinDelegateNo() int {
