@@ -14,7 +14,7 @@ import (
 )
 
 // AtmosABI is the input ABI used to generate the binding from.
-const AtmosABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"_block\",\"type\":\"uint256\"},{\"name\":\"_timestamp\",\"type\":\"uint256\"}],\"name\":\"getComposersWithStakes\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"},{\"name\":\"\",\"type\":\"uint256[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
+const AtmosABI = "[{\"constant\":true,\"inputs\":[{\"name\":\"_block\",\"type\":\"uint256\"},{\"name\":\"_timestamp\",\"type\":\"uint256\"}],\"name\":\"getComposers\",\"outputs\":[{\"name\":\"\",\"type\":\"address[]\"},{\"name\":\"\",\"type\":\"uint256[]\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
 
 // Atmos is an auto generated Go binding around an Ethereum contract.
 type Atmos struct {
@@ -158,10 +158,10 @@ func (_Atmos *AtmosTransactorRaw) Transact(opts *bind.TransactOpts, method strin
 	return _Atmos.Contract.contract.Transact(opts, method, params...)
 }
 
-// GetComposersWithStakes is a free data retrieval call binding the contract method 0xedd7e051.
+// GetComposers is a free data retrieval call binding the contract method 0x296ea742.
 //
-// Solidity: function getComposersWithStakes(_block uint256, _timestamp uint256) constant returns(address[], uint256[])
-func (_Atmos *AtmosCaller) GetComposersWithStakes(opts *bind.CallOpts, _block *big.Int, _timestamp *big.Int) ([]common.Address, []*big.Int, error) {
+// Solidity: function getComposers(_block uint256, _timestamp uint256) constant returns(address[], uint256[])
+func (_Atmos *AtmosCaller) GetComposers(opts *bind.CallOpts, _block *big.Int, _timestamp *big.Int) ([]common.Address, []*big.Int, error) {
 	var (
 		ret0 = new([]common.Address)
 		ret1 = new([]*big.Int)
@@ -170,20 +170,20 @@ func (_Atmos *AtmosCaller) GetComposersWithStakes(opts *bind.CallOpts, _block *b
 		ret0,
 		ret1,
 	}
-	err := _Atmos.contract.Call(opts, out, "getComposersWithStakes", _block, _timestamp)
+	err := _Atmos.contract.Call(opts, out, "getComposers", _block, _timestamp)
 	return *ret0, *ret1, err
 }
 
-// GetComposersWithStakes is a free data retrieval call binding the contract method 0xedd7e051.
+// GetComposers is a free data retrieval call binding the contract method 0x296ea742.
 //
-// Solidity: function getComposersWithStakes(_block uint256, _timestamp uint256) constant returns(address[], uint256[])
-func (_Atmos *AtmosSession) GetComposersWithStakes(_block *big.Int, _timestamp *big.Int) ([]common.Address, []*big.Int, error) {
-	return _Atmos.Contract.GetComposersWithStakes(&_Atmos.CallOpts, _block, _timestamp)
+// Solidity: function getComposers(_block uint256, _timestamp uint256) constant returns(address[], uint256[])
+func (_Atmos *AtmosSession) GetComposers(_block *big.Int, _timestamp *big.Int) ([]common.Address, []*big.Int, error) {
+	return _Atmos.Contract.GetComposers(&_Atmos.CallOpts, _block, _timestamp)
 }
 
-// GetComposersWithStakes is a free data retrieval call binding the contract method 0xedd7e051.
+// GetComposers is a free data retrieval call binding the contract method 0x296ea742.
 //
-// Solidity: function getComposersWithStakes(_block uint256, _timestamp uint256) constant returns(address[], uint256[])
-func (_Atmos *AtmosCallerSession) GetComposersWithStakes(_block *big.Int, _timestamp *big.Int) ([]common.Address, []*big.Int, error) {
-	return _Atmos.Contract.GetComposersWithStakes(&_Atmos.CallOpts, _block, _timestamp)
+// Solidity: function getComposers(_block uint256, _timestamp uint256) constant returns(address[], uint256[])
+func (_Atmos *AtmosCallerSession) GetComposers(_block *big.Int, _timestamp *big.Int) ([]common.Address, []*big.Int, error) {
+	return _Atmos.Contract.GetComposers(&_Atmos.CallOpts, _block, _timestamp)
 }
