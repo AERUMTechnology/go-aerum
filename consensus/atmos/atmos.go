@@ -51,7 +51,7 @@ const (
 	inmemorySnapshots  = 128  // Number of recent vote snapshots to keep in memory
 	inmemorySignatures = 4096 // Number of recent block signatures to keep in memory
 
-	wiggleTime = 500 * time.Millisecond // Random delay (per signer) to allow concurrent signers
+	wiggleTime = 1000 * time.Millisecond // Random delay (per signer) to allow concurrent signers
 
 	recentsTimeout  = 30 * time.Second // Timeout between signing blocks in case signer is recent
 	numberOfSigners = 10               // Maximum number of signers available in epoch
