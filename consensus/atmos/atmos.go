@@ -381,8 +381,8 @@ func (a *Atmos) snapshot(chain consensus.ChainReader, number uint64, hash common
 				return nil, err
 			}
 			// Check number of signers returned from governance contract
-			if len(signers) < 2 {
-				log.Error("Loaded snapshot from governance contract contains less than 2 signers", "number", number, "hash", hash, "error", err)
+			if len(signers) == 0 {
+				log.Error("Loaded snapshot from governance contract contains no signers", "number", number, "hash", hash, "error", err)
 				return nil, errInvalidNumberOfSigners
 			}
 			log.Trace("Loaded snapshot from governance contract", "number", number, "hash", hash)
