@@ -795,13 +795,13 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 	}
 
 	log.Info("Loading new headers", "number", number, "time", composersCheckTimestamp)
-	addresses, _, err := caller.GetComposers(&bind.CallOpts{}, big.NewInt(int64(number)), composersCheckTimestamp)
+	addresses, stakes, err := caller.GetComposers(&bind.CallOpts{}, big.NewInt(int64(number)), composersCheckTimestamp)
 	if err != nil {
 		return nil, err
 	}
 
 	// We select only limited number of signers and shift them on every epoch
-	selectedAddresses := signersProbabilisticSelection(config, addresses, number)
+	selectedAddresses := signersProbabilisticSelection(addresses, stakes, number)
 
 	// Log selected signers
 	hexAddresses := make([]string, 0)
@@ -810,23 +810,59 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 	}
 	log.Info("New signers loaded", "signers", strings.Join(hexAddresses, ", "), "time", composersCheckTimestamp.String())
 
-	return addresses, nil
+	return selectedAddresses, nil
 }
 
 // Added by Aerum
-func signersProbabilisticSelection(config *params.AtmosConfig, addresses []common.Address, number uint64) []common.Address {
+func signersProbabilisticSelection(addresses []common.Address, stakes []*big.Int, number uint64) []common.Address {
 	actualNumberOfSigners := int(math.Min(float64(len(addresses)), numberOfSigners))
-	start := int(number / config.Epoch) % actualNumberOfSigners
-	log.Info("Selecting new signers", "actual number of signers", actualNumberOfSigners, "shift", start)
+	log.Info("Selecting new signers", "actual number of signers", actualNumberOfSigners)
 
-	// We select only limited number of signers and shift them on every epoch
+	var totalWeight int64 = 0
+	weights := make([]int64, 0)
+	decimalsDivider := new(big.Int).Exp(big.NewInt(10), big.NewInt(18), nil)
+	for index := 0; index < len(addresses); index++ {
+		roundedStake := new(big.Int).Div(stakes[index], decimalsDivider).Int64()
+		weights = append(weights, roundedStake)
+		totalWeight += roundedStake
+	}
+	log.Info("Selecting new signers", "total stake", totalWeight)
+
+	rand := rand.New(rand.NewSource(totalWeight + int64(number)))
 	selectedAddresses := make([]common.Address, 0)
 	for index := 0; index < actualNumberOfSigners; index++ {
-		shiftIndex := (start + index) % len(addresses)
-		selectedAddresses = append(selectedAddresses, addresses[shiftIndex])
+		selectedAddress, selectedIndex, _ := selectRandomWeightedSigner(rand, addresses, weights, totalWeight)
+		selectedAddresses = append(selectedAddresses, selectedAddress)
+		log.Info("Selected new signer", "signer", selectedAddress.Hex(), "weight", weights[selectedIndex], "index", selectedIndex)
+
+		totalWeight -= weights[selectedIndex]
+		addresses = removeAddressByIndex(addresses, selectedIndex)
+		weights = removeInt64ByIndex(weights, selectedIndex)
 	}
 
 	return selectedAddresses
+}
+
+// Added by Aerum
+func selectRandomWeightedSigner(rand *rand.Rand, addresses []common.Address, weights []int64, totalWeight int64) (common.Address, int, error) {
+	randomWeight := rand.Int63n(totalWeight)
+	for index, address := range addresses {
+		randomWeight -= weights[index]
+		if randomWeight <= 0 {
+			return address, index, nil
+		}
+	}
+	return common.Address{}, 0, errors.New("no address selected")
+}
+
+// Added by Aerum
+func removeAddressByIndex(slice []common.Address, index int) []common.Address {
+	return append(slice[:index], slice[index+1:]...)
+}
+
+// Added by Aerum
+func removeInt64ByIndex(slice []int64, index int) []int64 {
+	return append(slice[:index], slice[index+1:]...)
 }
 
 // Added by Aerum
