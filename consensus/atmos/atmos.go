@@ -800,6 +800,21 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 		return nil, err
 	}
 
+	// We select only limited number of signers and shift them on every epoch
+	selectedAddresses := signersProbabilisticSelection(config, addresses, number)
+
+	// Log selected signers
+	hexAddresses := make([]string, 0)
+	for _, address := range selectedAddresses {
+		hexAddresses = append(hexAddresses, address.Hex())
+	}
+	log.Info("New signers loaded", "signers", strings.Join(hexAddresses, ", "), "time", composersCheckTimestamp.String())
+
+	return addresses, nil
+}
+
+// Added by Aerum
+func signersProbabilisticSelection(config *params.AtmosConfig, addresses []common.Address, number uint64) []common.Address {
 	actualNumberOfSigners := int(math.Min(float64(len(addresses)), numberOfSigners))
 	start := int(number / config.Epoch) % actualNumberOfSigners
 	log.Info("Selecting new signers", "actual number of signers", actualNumberOfSigners, "shift", start)
@@ -811,13 +826,7 @@ func getComposers(chain consensus.ChainReader, config *params.AtmosConfig, numbe
 		selectedAddresses = append(selectedAddresses, addresses[shiftIndex])
 	}
 
-	hexAddresses := make([]string, 0)
-	for _, address := range addresses {
-		hexAddresses = append(hexAddresses, address.Hex())
-	}
-	log.Info("New signers loaded", "signers", strings.Join(hexAddresses, ", "), "time", composersCheckTimestamp.String())
-
-	return addresses, nil
+	return selectedAddresses
 }
 
 // Added by Aerum
